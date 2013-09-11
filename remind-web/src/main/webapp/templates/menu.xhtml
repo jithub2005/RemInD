@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+	<ui:composition>
+		<rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn}">
+            <f:facet name="label">
+                <h:panelGrid cellpadding="0" cellspacing="0" columns="2" style="vertical-align:middle">
+                    <h:outputText value="Deployment" styleClass="mainMenuHeader"/>
+                </h:panelGrid>
+            </f:facet>
+            <rich:menuItem>
+                <h:commandLink id="deploymentLink" action="#{navigator.navigateTo('/deployment')}" value="Deploy" disabled="#{!loginController.loggedIn}" />
+            </rich:menuItem>
+        </rich:dropDownMenu>
+        
+        <rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn}">
+            <f:facet name="label">
+                <h:panelGrid cellpadding="0" cellspacing="0" columns="2" style="vertical-align:middle">
+                    <h:outputText value="Reports" styleClass="mainMenuHeader"/>
+                </h:panelGrid>
+            </f:facet>
+            <rich:menuItem>
+                <h:commandLink id="deploymentInformationLink" action="#{navigator.navigateTo('/deploymentInformation')}" value="Deployments" disabled="#{!loginController.loggedIn}" />
+            </rich:menuItem>
+            <rich:menuItem>
+            	<h:commandLink id="actionListLink" action="#{actionListController.navigateTo(0)}" value="Actions" disabled="#{!loginController.loggedIn}" />
+            </rich:menuItem>
+            <rich:menuItem>
+                <h:commandLink id="actionLogListLink" action="#{navigator.navigateTo('/actionLogList')}" value="Log Messages" disabled="#{!loginController.loggedIn}" />
+            </rich:menuItem>
+            <rich:menuItem>
+                <h:commandLink id="fileInfoListLink" action="#{navigator.navigateTo('/fileInfoList')}" value="Uploaded Files" disabled="#{!loginController.loggedIn}" />
+            </rich:menuItem>
+        </rich:dropDownMenu>
+        
+        <rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn}">
+            <f:facet name="label">
+                <h:panelGrid cellpadding="0" cellspacing="0" columns="2" style="vertical-align:middle">
+                    <h:outputText value="Configuration" styleClass="mainMenuHeader"/>
+                </h:panelGrid>
+            </f:facet>
+            <rich:menuItem>
+                <h:commandLink id="userSettingsLink" action="#{navigator.navigateTo('/userSettings')}" value="User Settings" disabled="#{!loginController.loggedIn}" />
+            </rich:menuItem>
+            <rich:menuItem disabled="true">
+                <h:commandLink id="systemSettingsLink" action="#{navigator.navigateTo('/systemSettings')}" value="System Settings" disabled="true" />
+            </rich:menuItem>
+        </rich:dropDownMenu>
+        
+        <rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn}">
+            <f:facet name="label">
+                <h:panelGrid cellpadding="0" cellspacing="0" columns="2" style="vertical-align:middle">
+                    <h:outputText value="Administration" styleClass="mainMenuHeader"/>
+                </h:panelGrid>
+            </f:facet>
+            <rich:menuItem>
+                <h:commandLink id="userAdministrationLink" action="#{navigator.navigateTo('/userAdministration')}" value="User Administration" disabled="#{!loginController.loggedIn}" />
+            </rich:menuItem>
+        </rich:dropDownMenu>
+	</ui:composition>
+</html>

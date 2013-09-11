@@ -1,0 +1,250 @@
+<!DOCTYPE xhtml PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/default.xhtml">
+
+	<ui:define name="leftContent">
+
+			<h:form id="uploadForm">
+				<rich:fileUpload id="upload" title="Upload descriptor" addLabel="Select file..." acceptedTypes="xml"
+					fileUploadListener="#{fileUploadController.processFileUpload}" ontyperejected="alert('Only xml files are accepted');"
+					noDuplicate="false" style="height: 90px; width: 99%;" render="userInputPanel, contentPanel, html" maxFilesQuantity="1" disabled="#{treeBean.deploymentActive or treeBean.validationActive}" >
+				</rich:fileUpload>
+			</h:form>
+
+			<h:form id="userInputForm">
+				<rich:panel id="userInputPanel" header="User input" bodyClass="userInputBody" style="height: 200px;">
+					<rich:panel>
+						<h:outputText value="#{treeBean.fileName}&nbsp;" styleClass="boldInformation" />
+					</rich:panel>
+					&nbsp;
+
+					<h:panelGrid columns="2" width="100%" columnClasses="rightAligned,leftAligned">
+						<h:outputLabel value="Lower TC:" />
+						<h:inputText value="#{treeBean.userInput.lowerTestCycleNumber}" />
+						<h:outputLabel value="Upper TC:" />
+						<h:inputText value="#{treeBean.userInput.upperTestCycleNumber}" />
+						<h:outputLabel value="Environment:" />
+						<h:selectOneRadio value="#{treeBean.userInput.environment}">
+							<f:selectItem itemValue="ALL" itemLabel="All" />
+							<f:selectItem itemValue="DEV" itemLabel="Dev" />
+							<f:selectItem itemValue="QM" itemLabel="QM" />
+							<f:selectItem itemValue="Production" itemLabel="Prod" />
+						</h:selectOneRadio>
+					</h:panelGrid>
+					<div align="right" style="width: 100%;">
+						<a4j:commandLink id="resetLink" value="Reset" action="#{treeBean.resetUserInput()}" render="@form, contentPanel, panelForm, editor" oncomplete="adjustSelectionPanel(); scrollDown(); resize();" disabled="#{treeBean.deploymentActive or treeBean.validationActive}" />
+						&nbsp;
+						<a4j:commandLink id="applyLink" value="Apply" action="#{treeBean.applyUserInput()}" render="@form, contentPanel, panelForm, editor" oncomplete="adjustSelectionPanel(); scrollDown(); resize();" disabled="#{treeBean.deploymentActive or not treeBean.mayApply or treeBean.validationActive}" />
+					</div>
+				</rich:panel>
+			</h:form>
+
+			<h:form id="contentPanelForm" style="margin: 0;">
+				<rich:panel id="contentPanel" header="Content" bodyClass="contentBody">
+					<rich:panel id="statePanel" styleClass="#{treeBean.state}">
+						<h:outputText
+							value="TC #{treeBean.userInput.lowerTestCycleNumber} - #{treeBean.userInput.upperTestCycleNumber} for #{treeBean.userInput.environment}: Status=#{treeBean.state}"
+							styleClass="boldInformation" />
+					</rich:panel>
+					&nbsp;
+					<div align="right" style="width: 100%;">
+						<h:graphicImage id="activeDeploymentIndicator" style="float:left; margin-top: -5px;" value="resources/images/deploymentActive_#{treeBean.deploymentActive or treeBean.validationActive}.gif"/>
+						<a4j:commandLink id="validateLink" value="Validate" action="#{treeBean.validate()}" disabled="#{!treeBean.mayValidate}"
+								render="contentPanel, userInputPanel, upload, consoleActionsForm" onbegin="disableComponents()"/>
+						&nbsp;
+						<a4j:commandLink id="deployLink" value="Deploy" action="#{treeBean.deploy()}" disabled="#{!treeBean.mayDeploy}"
+							render="contentPanel, userInputForm, upload, consoleActionsForm" onbegin="disableComponents()"/>
+						
+					</div>
+					<br />
+					<div id="treeContentPanel" style="overflow: auto;">
+						<rich:tree id="tree" value="#{treeBean.rootNodes}" var="node" toggleType="client" styleClass="treeBody"
+							selectionType="ajax" selection="#{treeBean.currentSelectionModels}"
+							selectionChangeListener="#{treeBean.selectionChanged}" render="panelForm, editor"
+							oncomplete="adjustSelectionPanel();">
+						</rich:tree>
+					</div>
+				</rich:panel>
+			</h:form>
+
+		
+		<a4j:push address="#{treeBean.deploymentPushAddress}"
+			onerror="alert(event.rf.data)" >
+				<a4j:ajax event="dataavailable" render="contentPanel, userInputForm, upload, consoleActionsForm" oncomplete="resize();"/>
+		</a4j:push>
+		
+	</ui:define>
+
+	<ui:define name="centerContent">
+		<script type="text/javascript">
+	   	    function scrollDown() {
+	   	    	document.getElementById('consoleContent').scrollTop=document.getElementById('consoleContent').scrollHeight;
+	       	};
+
+		   	window.onload=scrollDown;
+	    </script>
+
+		<a4j:push address="#{consoleBean.consolePushAddress}"
+			ondataavailable="jQuery('&lt;pre /&gt;').appendTo('#messages').css('margin', '0').text(event.rf.data); scrollDown();"
+			onerror="alert(event.rf.data)" />
+		
+		<div id="MySplitter">
+			<div id="TopPane">
+				<h:form id="panelForm" target="_blank" style="margin: 0; height: inherit;">	
+					<rich:tabPanel id="topTabPanel" style="height: inherit;">
+				        <rich:tab id="html" header="HTML" label="HTML" style="height: inherit;">
+						<div id="htmlContent" class="htmlAndEditorBody">
+				    		<h:commandLink action="#{treeBean.createPdfDocument()}" styleClass="downloadPdfLink" value="Download PDF" tabindex="100" rendered="#{treeBean.htmlData != null}"/>
+							<h:outputText value="#{treeBean.htmlData}" escape="false" />
+						</div>
+				        </rich:tab>
+				        <rich:tab id="editor"  style="height: inherit;" header="Selection details: #{treeBean.currentSelectionName}" label="Selection details: #{treeBean.currentSelectionName}" >
+							<div  id="editorContent" class="htmlAndEditorBody">
+								<pre style="margin: 0;">#{treeBean.currentSelectionData}</pre>
+							</div>
+				        </rich:tab>
+				    </rich:tabPanel>
+				</h:form>
+			</div>
+	
+			<rich:panel id="console" bodyClass="consoleBody">
+				<f:facet name="header">
+		        	<div style="float:left;">
+		        		<h:outputText value="Console" />
+		        	</div>
+		        	<div>
+	           			<h:form id="consoleActionsForm" style="height: 2px;" target="_blank">
+				            <div style="float:right; padding-left:20px;">
+					            <h:commandLink value="Clear Console" action="#{consoleBean.clearConsole}" tabindex="100" render="messages" disabled="true" />
+	           				</div>
+	           				<div style="float:right; padding-left:20px;">
+					            <h:commandLink id="exportConsoleLink" action="#{consoleBean.exportConsoleAsFile}" value="Export Console" tabindex="100" disabled="#{treeBean.deploymentActive || treeBean.validationActive}"/>
+	           				</div>
+			            </h:form>
+		            </div>
+			    </f:facet>
+				<div id="consoleContent"
+					style="position: relative; overflow: auto; height: inherit;">
+					<h:form>
+						<ul id="messages">
+							<ui:repeat var="line" value="#{consoleBean.lines}">
+								<pre style="margin: 0;">#{line}</pre>
+							</ui:repeat>
+						</ul>
+					</h:form>
+				</div>
+			</rich:panel>
+		</div>
+
+		<c:set var="feedbackUrl" value="#{consoleBean.feedbackUrl}" />
+
+		<a4j:push address="#{consoleBean.feedbackPushAddress}"
+			ondataavailable="#{rich:component('feedbackPanel')}.show(event); return false;" onerror="alert(event.rf.data)" />
+
+		<rich:popupPanel id="feedbackPanel" header="Request user feedback" modal="true" width="750" height="400" resizeable="false"
+			moveable="true" show="#{consoleBean.feedbackPending}" onbeforeshow="render('#{feedbackUrl}', '#{treeBean.identifier}');" >
+			<div style="width: 100%; height: 320px; overflow-y: auto;">
+				<ul style="width: 90%;">
+					<pre id="feedback"></pre>
+				</ul>
+			</div>
+			<h:form id="feedbackFormSkip">
+				<div id="downloadActions" style="float:left; width:50%; margin-top:25px;">
+					<a id="downloadFile" class="rf-fu-itm-lnk" href="#{feedbackUrl}/context/source/#{treeBean.identifier}" target="downloadPage">File</a>
+					&nbsp;
+					<a id="downloadStatement" class="rf-fu-itm-lnk" href="#{feedbackUrl}/context/errorcause/#{treeBean.identifier}" target="downloadPage">Statement</a>
+				</div>
+				<div id="panelActions" align="right" style="float:left; width:50%; margin-top:25px;">
+					<a4j:commandLink id="skipStatement" value="Skip Statement"
+						onclick="jQuery.post('#{feedbackUrl}/skipStatement','#{treeBean.identifier}'); #{rich:component('feedbackPanel')}.hide(event); jQuery('#feedback').empty(); return false;" />
+					&nbsp;
+					<a4j:commandLink id="skip" value="Skip"
+						onclick="jQuery.post('#{feedbackUrl}/skip','#{treeBean.identifier}'); #{rich:component('feedbackPanel')}.hide(event); jQuery('#feedback').empty(); return false;" />
+					&nbsp;
+					<a4j:commandLink id="abort" value="Abort"
+						onclick="jQuery.post('#{feedbackUrl}/abort','#{treeBean.identifier}'); #{rich:component('feedbackPanel')}.hide(event); jQuery('#feedback').empty(); return false;" />
+				</div>
+			</h:form>
+		</rich:popupPanel>
+
+		<h:outputScript library="js" name="feedbackPanel.js" />
+		
+		<!-- Handles state of JSF components (enable/disable). -->
+		<h:outputScript library="js" name="componentsHandler.js" />
+		
+		<!-- This code is added to enable JS splitter -->
+		<h:outputScript library="js" name="jquery.js" />
+		<h:outputScript library="js" name="splitter.js" />		
+		
+		<!-- We also need normal css file import to work in Opera. -->
+		<h:outputStylesheet library="css" name="splitter.css" />
+		
+		<script type="text/javascript">
+			$j = jQuery.noConflict(true);
+
+			$j().ready(function() {
+				var pmp = $j("#MySplitter").height();
+				$j("#TopPane").height(pmp / 3);
+				$j("#console").height(2 * pmp / 3 - 10);
+				
+				$j("#MySplitter").splitter({
+					type: "h", 
+					sizeTop: true,	/* use height set in stylesheet */
+					accessKey: "P"
+				});
+			});
+
+			function adjustSelectionPanel() {
+				var tp = $j("#TopPane").height();
+				var cbp = $j("#console").height();
+				
+			    $j("#TopPane_body").height(tp);
+			    $j("#panelForm:html").height(tp);
+				$j("#console_body").height(cbp);
+				
+				var tpb = $j("#TopPane_body").height() - 30;
+				var cbpb = $j("#console_body").height() - 40;
+				var phtml = $j("#panelForm:html:content").height() - 50;
+				
+				$j("#TopPane_body").height(tpb);
+				$j("#console_body").height(cbpb);
+				$j("#panelForm:html:content").height(phtml);
+	       	}
+
+			window.onresize = resize;
+
+			function resize() {
+				$j("#MySplitter").width('99%');
+				$j("#TopPane").width('100%');
+				$j("#console").width('100%');
+				$j("#splitBar").width('100%');
+				
+				var tpw = $j("#TopPane").width();
+				$j("#TopPane").width(tpw + 3);
+
+				var leftContentHeight = $j("#leftContent").height();
+				var uploadHeight = $j("#uploadForm\\:upload").height();
+				var userInputPanelHeight = $j("#userInputForm\\:userInputPanel").height();
+				var contentPanelHeight = leftContentHeight - (uploadHeight + userInputPanelHeight + 45);
+				$j("#contentPanelForm\\:contentPanel").height(contentPanelHeight);
+				$j("#treeContentPanel").height(contentPanelHeight - 120);
+
+				var centerContentHeight = $j("#centerContent").height();	
+				var topPanelHeight = $j("#TopPane").height();
+
+				var consoleHeight = centerContentHeight - topPanelHeight - 20;
+				$j("#console").height(consoleHeight);
+				$j("#console_body").height(consoleHeight - 40);
+			}
+
+		</script>
+		
+		<h:outputStylesheet library="css" name="overriddenStyles.css" />
+	</ui:define>
+</ui:composition>

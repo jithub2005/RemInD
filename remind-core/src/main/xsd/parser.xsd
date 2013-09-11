@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="parserSchema">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="parserDefinitionDocument" type="ParserDefinitionDocument" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ParserDefinitionDocument">
+		<xs:sequence>
+			<xs:element name="parserInformation" type="ParserInformation" />
+			<xs:element name="startTag" type="StartTag" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParserInformation">
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StartTag">
+		<xs:sequence>
+			<xs:element name="tag" type="xs:string" />
+			<xs:element name="endTag" type="EndTag" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EndTag">
+		<xs:sequence>
+			<xs:element name="tag" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

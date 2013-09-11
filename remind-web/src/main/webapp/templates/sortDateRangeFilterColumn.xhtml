@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+	<ui:composition>
+		<rich:column styleClass="#{columnValueStyleClass}" >
+			<f:facet name="header">
+				<div class="#{columnValueStyleClass}">
+					<div style="height: 20px;">
+						<h:outputText value="#{columnHeader}" style="float: left;" />
+						<h:commandLink value="#{msgs[lowerFilter.sortOrder]}" style="float: right; margin-right: 3px;" action="#{lowerFilter.switchSortOrder()}"
+							render="@body #{scrollerId}" tabindex="32767" />
+					</div>
+					<rich:calendar id="popupButtonCalLower" value="#{lowerFilter.value}" enableManualInput="true" styleClass="#{lowerFilterStyleClass}" inputStyle="width:40px"
+						style="float: left" showApplyButton="true" datePattern="#{filterDatePattern}">
+						<a4j:ajax render="@body #{scrollerId}" event="change" execute="@form" />
+					</rich:calendar>
+					<rich:calendar id="popupButtonCalUpper" value="#{upperFilter.value}" enableManualInput="true" styleClass="#{upperFilterStyleClass}" inputStyle="width:40px"
+						style="float: right"  showApplyButton="true" datePattern="#{filterDatePattern}">
+						<a4j:ajax render="@body #{scrollerId}" event="change" execute="@form" />
+					</rich:calendar>
+				</div>
+			</f:facet>
+				<div class="#{columnValueStyleClass}">
+				<h:outputText value="#{columnValue}">
+					<f:convertDateTime type="date" pattern="#{datePattern}" />
+				</h:outputText>
+				</div>
+		</rich:column>
+	</ui:composition>
+</html>

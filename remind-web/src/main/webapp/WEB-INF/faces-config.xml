@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is not required if you don't need any extra configuration. -->
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+	<application>
+		<resource-bundle>
+			<base-name>ui.messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
+
+		<resource-handler>at.jit.remind.web.ui.resource.UncachedCssJsResourceHandler</resource-handler>
+	</application>
+
+	<factory>
+		<exception-handler-factory>at.jit.remind.web.ui.controller.security.SecurityExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+</faces-config>

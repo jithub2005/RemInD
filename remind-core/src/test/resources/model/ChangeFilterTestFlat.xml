@@ -1,0 +1,145 @@
+<installationDocument>
+	<installerInformation>
+		<version>1.0</version>
+	</installerInformation>
+	<documentInformation>
+		<title>CreateTablesTest</title>
+		<target>Ziel</target>
+		<release>Rel 13.03</release>
+		<testCycle>10</testCycle>
+		<type>Installation</type>
+	</documentInformation>
+	<distributionItem>
+		<name>DB Admin</name>
+		<department>Operations</department>
+		<phone />
+	</distributionItem>
+	<distributionItem>
+		<name>Thorsten Guggenberger</name>
+		<department>Development</department>
+		<phone>7826</phone>
+		<mail>t.guggenberger@j-it.at</mail>
+	</distributionItem>
+	<descriptionOfContent>
+		<caption>Inhalt</caption>
+		<text>Dieses Dokument beschreibt alle notwendigen Schritte.</text>
+	</descriptionOfContent>
+	<descriptionOfInstallationOrder>
+		<caption>Installation</caption>
+		<text>Die Reihenfolge dieser Installationsanleitung ist einzuhalten.</text>
+	</descriptionOfInstallationOrder>
+	<descriptionOfPrecondition>
+		<caption>Common Preconditions</caption>
+		<text>Alle bisherigen Setups müssen am Server und Client vorhanden sein.</text>
+	</descriptionOfPrecondition>
+	<descriptionOfPrecondition>
+		<caption>Zugriffsberechtigungen DB</caption>
+		<text>Zusätzliche zu den einzelnen Installationsschritten benötigte Berechtigungen</text>
+	</descriptionOfPrecondition>
+	<installationBlock>
+		<phaseDescription>
+			<phase>duringMaintenance</phase>
+			<formattedDescription>
+				<description>
+					<caption>ACHTUNG:</caption>
+					<text>Wichtiger Text</text>
+				</description>
+			</formattedDescription>
+		</phaseDescription>
+		<change>
+			<description></description>
+			<developer>Helmuth Wiesinger</developer>
+			<onlyOnce>true</onlyOnce>
+			<testCycleNumber>03</testCycleNumber>
+			<source>
+				<sourceCodeManagement>
+					<subversion>
+						<repositoryUrl>http://dev.jit.at/svn/remind-testing</repositoryUrl>
+						<path>trunk/Rel 13.03/dbFiles/create-table-test.sql</path>
+						<revision>25</revision>
+					</subversion>
+				</sourceCodeManagement>
+			</source>
+			<target>
+				<database>
+					<SID>REMIND-QM</SID>
+					<schema>remind-qm</schema>
+				</database>
+			</target>
+			<environment>QM</environment>
+			<pause>false</pause>
+		</change>
+
+		<change>
+			<description></description>
+			<developer>Helmuth Wiesinger</developer>
+			<onlyOnce>true</onlyOnce>
+			<testCycleNumber>05</testCycleNumber>
+			<source>
+				<sourceCodeManagement>
+					<subversion>
+						<repositoryUrl>http://dev.jit.at/svn/remind-testing</repositoryUrl>
+						<path>trunk/Rel 13.03/dbFiles/create-table-test.sql</path>
+						<revision>26</revision>
+					</subversion>
+				</sourceCodeManagement>
+			</source>
+			<target>
+				<database>
+					<SID>REMIND-QM</SID>
+					<schema>remind-qm</schema>
+				</database>
+			</target>
+			<environment>QM</environment>
+			<pause>false</pause>
+		</change>
+
+		<change>
+			<description></description>
+			<developer>Helmuth Wiesinger</developer>
+			<onlyOnce>true</onlyOnce>
+			<testCycleNumber>07</testCycleNumber>
+			<source>
+				<sourceCodeManagement>
+					<subversion>
+						<repositoryUrl>http://dev.jit.at/svn/remind-testing</repositoryUrl>
+						<path>trunk/Rel 13.03/dbFiles/create-table-test.sql</path>
+						<revision>27</revision>
+					</subversion>
+				</sourceCodeManagement>
+			</source>
+			<target>
+				<database>
+					<SID>REMIND-QM</SID>
+					<schema>remind-qm</schema>
+				</database>
+			</target>
+			<environment>QM</environment>
+			<pause>false</pause>
+		</change>
+		
+		<change>
+			<description></description>
+			<developer>Patrick Lorenz</developer>
+			<onlyOnce>true</onlyOnce>
+			<testCycleNumber>10</testCycleNumber>
+			<source>
+				<sourceCodeManagement>
+					<subversion>
+						<repositoryUrl>http://dev.jit.at/svn/remind-testing</repositoryUrl>
+						<path>trunk/Rel 13.03/dbFiles/alter-table-test.sql</path>
+						<revision>28</revision>
+					</subversion>
+				</sourceCodeManagement>
+			</source>
+			<target>
+				<database>
+					<SID>REMIND-QM</SID>
+					<schema>remind-qm</schema>
+				</database>
+			</target>
+			<environment>QM</environment>
+			<pause>false</pause>
+		</change>
+	</installationBlock>
+</installationDocument>

@@ -1,0 +1,75 @@
+<!DOCTYPE xhtml PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="ie.css" rendered="#{applicationContext.userAgentIE}"/>
+
+	<ui:remove>
+		<a4j:status startText="Working..." startStyle="position:absolute; left:0; top:0;" />
+	</ui:remove>
+	
+	<h:head>
+		<title>RemInD - Remote Interactive Deployment</title>
+	</h:head>
+	
+	<h:body>
+		<div id="header">
+			<div id="cell">
+				<h:form>
+					<rich:toolbar id="toolbar" style="height: 30px">
+						<rich:toolbarGroup location="left">
+							<a4j:commandLink value="Main" action="#{navigator.navigateTo('/index')}" />
+							<ui:include src="menu.xhtml" />
+						</rich:toolbarGroup>
+						<rich:toolbarGroup location="right">
+							<h:outputText value="Current user: #{loginController.sessionUser.username}" rendered="#{loginController.loggedIn}" />
+						</rich:toolbarGroup>
+						<rich:toolbarGroup location="right">
+							<a4j:commandLink id="loginLink" value="Login" disabled="#{loginController.loggedIn}">
+								<rich:componentControl event="click" operation="show" target="loginPanel">
+									<a4j:param name="event" value="event" noEscape="true" />
+									<rich:hashParam>
+										<a4j:param noEscape="true" name="top"
+											value="jQuery(#{rich:element('loginLink')}.parentNode).offset().top + jQuery(#{rich:element('loginLink')}.parentNode).height()" />
+										<a4j:param noEscape="true" name="left"
+											value="jQuery(#{rich:element('loginLink')}).offset().left + jQuery(#{rich:element('loginLink')}).width() - 250" />
+									</rich:hashParam>
+								</rich:componentControl>
+							</a4j:commandLink>
+							<a4j:commandLink id="logoutLink" value="Logout" disabled="#{!loginController.loggedIn}">
+								<rich:componentControl event="click" operation="show" target="logoutPanel">
+									<a4j:param name="event" value="event" noEscape="true" />
+									<rich:hashParam>
+										<a4j:param noEscape="true" name="top"
+											value="jQuery(#{rich:element('logoutLink')}.parentNode).offset().top + jQuery(#{rich:element('logoutLink')}.parentNode).height()" />
+										<a4j:param noEscape="true" name="left"
+											value="jQuery(#{rich:element('logoutLink')}).offset().left + jQuery(#{rich:element('logoutLink')}).width() - 200" />
+									</rich:hashParam>
+								</rich:componentControl>
+							</a4j:commandLink>
+						</rich:toolbarGroup>
+					</rich:toolbar>
+				</h:form>
+	
+				<ui:include src="loginPanel.xhtml" />
+				<ui:include src="logoutPanel.xhtml" />
+			</div>
+		</div>
+	
+		<div id="center">
+			<div id="leftContent">
+				<ui:insert name="leftContent" />
+			</div>
+			<div id="centerContent">
+				<ui:insert name="centerContent" />
+			</div>
+		</div>
+	
+		<ui:include src="footer.xhtml" />
+	</h:body>
+</html>

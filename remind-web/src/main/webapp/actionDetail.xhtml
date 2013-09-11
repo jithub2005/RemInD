@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:cm="http://richfaces.org/sandbox/contextmenu"
+	template="/templates/fullview.xhtml">
+	
+
+	<ui:define name="fullContent">
+		<h:outputStylesheet library="css" name="report.css" />
+		
+		<rich:panel header="Action Information" style="width:99%;">
+			<table class="actionDetailTable">
+				<tr>
+					<th>Type</th>
+					<th>Date</th>
+					<th>User</th>
+				</tr>
+				<tr>
+					<td><h:outputText value="#{actionDetailController.action.type}" /></td>
+					<td><h:outputText value="#{actionDetailController.action.createdOn}" /></td>
+					<td><h:outputText value="#{actionDetailController.action.user.username}" /></td>
+				</tr>
+			</table>
+		</rich:panel>
+
+		<rich:panel header="Logs" styleClass="actionDetailLogsPanel">
+			<h:form>
+				<div>
+					<rich:dataTable id="actionLogList" var="actionLog"
+						value="#{actionDetailController.actionLogListController.model}" rows="10">
+						<ui:include src="/templates/sortDateRangeFilterColumn.xhtml">
+							<ui:param name="scrollerId" value="scroller" />
+							<ui:param name="columnHeader" value="Date" />
+							<ui:param name="columnHeaderStyleClass" value="width-date" />
+							<ui:param name="columnValue" value="#{actionLog.createdOn}" />
+							<ui:param name="columnValueStyleClass" value="width-date" />
+							<ui:param name="lowerFilter" value="#{actionDetailController.actionLogListController.dataModel.getParameter('createdOn.lower')}" />
+							<ui:param name="upperFilter" value="#{actionDetailController.actionLogListController.dataModel.getParameter('createdOn.upper')}" />
+							<ui:param name="lowerFilterStyleClass" value="calendarLowerDetailsFilter" />
+							<ui:param name="upperFilterStyleClass" value="calendarUpperDetailsFilter" />
+							<ui:param name="datePattern" value="yyyy.MM.dd HH:mm:ss" />
+							<ui:param name="filterDatePattern" value="yyyy.MM.dd HH:mm:ss" />
+						</ui:include>
+	
+						<ui:include src="/templates/sortFilterColumn.xhtml">
+							<ui:param name="scrollerId" value="scroller" />
+							<ui:param name="columnHeader" value="Level" />
+							<ui:param name="columnHeaderStyleClass" value="width-log-level" />
+							<ui:param name="columnValue" value="#{actionLog.logLevel}" />
+							<ui:param name="columnValueStyleClass" value="width-log-level" />
+							<ui:param name="filter"
+								value="#{actionDetailController.actionLogListController.dataModel.getParameter('logLevel')}" />
+							<ui:param name="tabIndex" value="2" />
+						</ui:include>
+	
+						<ui:include src="/templates/sortFilterColumn.xhtml">
+							<ui:param name="scrollerId" value="scroller" />
+							<ui:param name="columnHeader" value="Message" />
+							<ui:param name="columnHeaderStyleClass" value="width-details-log-text-header" />
+							<ui:param name="columnValue" value="#{actionLog.logText}" />
+							<ui:param name="columnValueStyleClass" value="width-details-log-text" />
+							<ui:param name="filter"
+								value="#{actionDetailController.actionLogListController.dataModel.getParameter('logText')}" />
+							<ui:param name="tabIndex" value="3" />
+						</ui:include>
+					</rich:dataTable>
+					<div id="tableFooter" align="center" class="actionLogListScroller">
+						<rich:dataScroller id="scroller" page="#{actionDetailController.actionLogListController.page}"
+							for="actionLogList" />
+						<h:commandLink action="#{actionDetailController.actionLogListController.download()}" style="float: right; padding-right:3px;">
+							<h:graphicImage value="resources/images/icons/page_excel.png" />
+						</h:commandLink>
+					</div>
+				</div>
+			</h:form>
+		</rich:panel>
+
+		<rich:panel header="Deployment Information" styleClass="actionDetailDeploymentPanel"
+			rendered="#{actionDetailController.persistedDeploymentInformationExists}">
+			<table class="deploymentInformationTable">
+				<tr>
+					<td>Release</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.release}" /></td>
+				</tr>
+				<tr>
+					<td>Environment</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.environment}" /></td>
+				</tr>
+				<tr>
+					<td>Target</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.target}" /></td>
+				</tr>
+				<tr>
+					<td>Version</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.version}" /></td>
+				</tr>
+				<tr>
+					<td>TC</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.testCycleNumber}" /></td>
+				</tr>
+				<tr>
+					<td>Created On</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.createdOn}" /></td>
+				</tr>
+				<tr>
+					<td>Developer</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.developer}" /></td>
+				</tr>
+				<tr>
+					<td>Source Information</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.sourceInfo}" /></td>
+				</tr>
+				<tr>
+					<td>Target Information</td>
+					<td><h:outputText value="#{actionDetailController.persistedDeploymentInformation.targetInfo}" /></td>
+				</tr>
+			</table>
+		</rich:panel>
+	</ui:define>
+</ui:composition>

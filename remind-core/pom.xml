@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>at.jit.remind</groupId>
+		<artifactId>remind-parent</artifactId>
+		<version>0.8.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>remind-core</artifactId>
+
+	<name>JIT RemInD - core</name>
+	<description>Remote Interactive Deployment - core project</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.tmatesoft.svnkit</groupId>
+			<artifactId>svnkit</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle.jdbc</groupId>
+			<artifactId>ojdbc6</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.findbugs</groupId>
+			<artifactId>annotations</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>1.3.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/xsd</directory>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>xjc</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<packageName>at.jit.remind.core.xml</packageName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
