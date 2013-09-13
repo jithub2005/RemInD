@@ -1,0 +1,1 @@
+insert into `testtable` (`test_date`) values('2008-7-04failure');

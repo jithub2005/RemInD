@@ -1,0 +1,71 @@
+/*
+ * Splitter container. Set this to the desired width and height
+ * of the combined left and right panes.
+ */
+#MySplitter {
+	height: 99%;
+	width: 99%;
+	/* No padding allowed */
+}
+
+/*
+ * Top element of the splitter. Use pixel units for the
+ * min-height and max-height; the splitter plugin parses them to
+ * determine the splitter movement limits. Set the height to
+ * the desired initial height of the element; the plugin changes
+ * the height of this element dynamically.
+ * Do not change name of this class.
+ */
+#TopPanel {
+	/* Initial/min/max height for this pane */
+	height: 49%;
+	min-height: 150px;
+	max-height: 90%;
+	/* No margin or border allowed */
+}
+
+/*
+ * Bottom element of the splitter; the plugin changes the top
+ * position and height of this element dynamically.
+ * Do not change name of this class.
+ */
+#BottomPanel {
+	overflow-y:hidden;
+	height: 49%;
+	/* No margin or border allowed */
+}
+
+/* 
+ * Splitter bar style; the .active class is added when the
+ * mouse is over the splitter or the splitter is focused
+ * via the keyboard taborder or an accessKey. 
+ */
+#MySplitter .hsplitbar {
+	height: 10px;
+	/* No margin, border, or padding allowed */
+}
+
+#MySplitter .hsplitbar.active, #MySplitter .hsplitbar:hover {
+	background: #99ccff;
+}
+
+/* Initial/min/max height for html/Selection details (top) panel */
+#TopPane {
+	min-height: 150px;
+}
+
+/* Initial/min/max height for console (bottom) panel */
+#console {
+	min-height: 150px;
+}
+
+/*
+ * We need to override rich-faces style class "rf-tab-cnt" in deployment.xhtml page
+ * to make java-script splitter work correctly. splitter.css file
+ * should not be imported in other XHTML files if there is no 
+ * particular reason because it can cause changes of rich-faces
+ * components layout. 
+ */
+div.rf-tab-cnt {
+	height: inherit;
+}

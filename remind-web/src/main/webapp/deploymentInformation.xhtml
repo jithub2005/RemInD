@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:cm="http://richfaces.org/sandbox/contextmenu"
+	template="/templates/fullview.xhtml">
+
+	<ui:define name="fullContent">
+		<h:outputStylesheet library="css" name="report.css" />
+		
+		<h:form id="deploymentInformationForm">
+			<div class="reportsParent">
+				<rich:dataTable id="deploymentInformationList" var="deploymentInformation" value="#{reportController.model}" rows="10">
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Release" />
+						<ui:param name="columnHeaderStyleClass" value="width-release" />
+						<ui:param name="columnValue" value="#{deploymentInformation.release}" />
+						<ui:param name="columnValueStyleClass" value="width-release" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('release')}" />
+						<ui:param name="tabIndex" value="1" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Env." />
+						<ui:param name="columnHeaderStyleClass" value="width-environment" />
+						<ui:param name="columnValue" value="#{deploymentInformation.environment}" />
+						<ui:param name="columnValueStyleClass" value="width-environment" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('environment')}" />
+						<ui:param name="tabIndex" value="2" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Target" />
+						<ui:param name="columnHeaderStyleClass" value="width-target" />
+						<ui:param name="columnValue" value="#{deploymentInformation.target}" />
+						<ui:param name="columnValueStyleClass" value="width-target" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('target')}" />
+						<ui:param name="tabIndex" value="3" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Version" />
+						<ui:param name="columnHeaderStyleClass" value="width-version" />
+						<ui:param name="columnValue" value="#{deploymentInformation.deploymentVersion}" />
+						<ui:param name="columnValueStyleClass" value="width-version" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('deploymentVersion')}" />
+						<ui:param name="tabIndex" value="4" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="TC" />
+						<ui:param name="columnHeaderStyleClass" value="width-test-cycle" />
+						<ui:param name="columnValue" value="#{deploymentInformation.testCycleNumber}" />
+						<ui:param name="columnValueStyleClass" value="width-test-cycle" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('testCycleNumber')}" />
+						<ui:param name="tabIndex" value="5" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortDateRangeFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Date" />
+						<ui:param name="columnHeaderStyleClass" value="width-date" />
+						<ui:param name="columnValue" value="#{deploymentInformation.createdOn}" />
+						<ui:param name="columnValueStyleClass" value="width-date" />
+						<ui:param name="lowerFilter" value="#{reportController.dataModel.getParameter('createdOn.lower')}" />
+						<ui:param name="upperFilter" value="#{reportController.dataModel.getParameter('createdOn.upper')}" />
+						<ui:param name="lowerFilterStyleClass" value="calendarLowerFilter" />
+						<ui:param name="upperFilterStyleClass" value="calendarUpperFilter" />
+						<ui:param name="datePattern" value="yyyy.MM.dd HH:mm:ss" />
+						<ui:param name="filterDatePattern" value="yyyy.MM.dd HH:mm" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Source Information" />
+						<ui:param name="columnHeaderStyleClass" value="width-source-info" />
+						<ui:param name="columnValue" value="#{deploymentInformation.sourceInfo}" />
+						<ui:param name="columnValueStyleClass" value="width-source-info" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('sourceInfo')}" />
+						<ui:param name="tabIndex" value="7" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Target Information" />
+						<ui:param name="columnHeaderStyleClass" value="width-target-info" />
+						<ui:param name="columnValue" value="#{deploymentInformation.targetInfo}" />
+						<ui:param name="columnValueStyleClass" value="width-target-info" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('targetInfo')}" />
+						<ui:param name="tabIndex" value="8" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Status" />
+						<ui:param name="columnHeaderStyleClass" value="width-status" />
+						<ui:param name="columnValue" value="#{deploymentInformation.status}" />
+						<ui:param name="columnValueStyleClass" value="width-status" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('status')}" />
+						<ui:param name="tabIndex" value="8" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Status Details" />
+						<ui:param name="columnHeaderStyleClass" value="width-status-details" />
+						<ui:param name="columnValue" value="#{deploymentInformation.statusDetails}" />
+						<ui:param name="columnValueStyleClass" value="width-status-details" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('statusDetails')}" />
+						<ui:param name="tabIndex" value="8" />
+					</ui:include>
+	
+					<ui:include src="/templates/sortFilterColumn.xhtml">
+						<ui:param name="scrollerId" value="scroller" />
+						<ui:param name="columnHeader" value="Developer" />
+						<ui:param name="columnHeaderStyleClass" value="width-developer" />
+						<ui:param name="columnValue" value="#{deploymentInformation.developer}" />
+						<ui:param name="columnValueStyleClass" value="width-developer" />
+						<ui:param name="filter" value="#{reportController.dataModel.getParameter('developer')}" />
+						<ui:param name="tabIndex" value="9" />
+					</ui:include>
+	
+					<rich:column styleClass="width-action-links">
+						<f:facet name="header">
+							<div class="width-action-links">
+								<a4j:outputPanel>
+									<a4j:commandLink action="#{reportController.resetFilters()}" render="deploymentInformationList scroller"
+										value="Reset Filters" execute="@this" />
+								</a4j:outputPanel>
+							</div>
+						</f:facet>
+						<div class="width-action-links">
+							<h:commandLink value="Details" action="#{actionDetailController.navigateTo(deploymentInformation.actionId)}" rendered="#{deploymentInformation.actionId != null}"/>
+						</div>
+					</rich:column>
+				</rich:dataTable>
+				<div id="tableFooter" align="center" class="deploymentInformationListScroller">
+					<rich:dataScroller id="scroller" page="#{reportController.page}" for="deploymentInformationList" />
+					<h:commandLink action="#{reportController.download()}" style="float: right; padding-right:3px;">
+						<h:graphicImage value="resources/images/icons/page_excel.png" />
+					</h:commandLink>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

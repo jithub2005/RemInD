@@ -1,0 +1,163 @@
+<html>
+   <head>
+   <title>Installationsanleitung</title>
+		<link rel="stylesheet" type="text/css" href="formate.css"/>
+    </head>
+    
+    <body>
+    <h1>$header (Version $version)</h1>
+    <h2>$target</h2>
+    <h2>$release</h2>
+    <h2>$tc</h2>
+    
+    	<p><b><u>Verteiler:</u></b></p>
+        <table border="1"> 
+        	<tr>
+				<td>
+			  		<p><b>Name</b></p>
+			  	</td>
+			  	<td>
+			  		<p><b>Abteilung</b></p>
+			  	</td>
+			  	<td>
+			  		<p><b>Telefon</b></p>
+			  	</td>
+			 </tr>
+           
+        	#foreach( $distribution in $distributionList )
+			 <tr>
+				<td>
+			  		<p>$distribution.name&nbsp;</p>
+			  	</td>
+			  	<td>
+			  		<p>$distribution.department&nbsp;</p>
+			  	</td>
+			  	<td>
+			  		<p>$distribution.phone&nbsp;</p>
+			  	</td>
+			 </tr>
+        	#end
+			 <tr>
+        </table>
+        
+        #foreach( $descriptionOfContent in $descriptionOfContentList )
+	        <h2>$descriptionOfContent.caption</h2>
+	        <p>$descriptionOfContent.text</p>
+        #end
+          
+        #foreach( $descriptionInstallationOrder in $descriptionInstallationOrderList )             
+	        <h2>$descriptionInstallationOrder.caption</h2>
+			<p>$descriptionInstallationOrder.text</p>
+        #end        
+                
+        #foreach( $descriptionType in $descriptionPreconditionList )             
+	        <h2>$descriptionType.caption</h2>
+			<p>$descriptionType.text</p>
+        #end 
+      
+        <h2>Installation Block:</h2>  
+                 
+        #foreach( $installationBlock in $installationBlockList )
+        
+        	<h3>Statusbeschreibung:</h3>
+	        	<p><b><u>Phase:</u></b></p>
+	        	<p>$installationBlock.phaseDescription.phase</p>
+	        	<p><b><u>Beschreibung:</u></b></p>
+	        	
+	        	#foreach( $formattedDescription in $installationBlock.phaseDescription.formattedDescription )
+	        		<p>$formattedDescription.description.caption</p>
+	        		<p>$formattedDescription.description.text</p>
+        		#end
+        	
+        	 <h3>Change List:</h3>
+													
+        		<table border="1">
+        			<tr>
+        				<td>
+        					<p><b>SVN Repository Url</b></p>
+        				</td> 
+        				<td>
+        					<p><b>Pfad</b></p>
+        				</td>        			
+        				<td>
+        					<p><b>Target</b></p>
+        				</td>	        				
+        				<td>
+        					<p><b>Beschreibung</b></p>
+        				</td>	
+        				<td>
+        					<p><b>Developer</b></p>
+        				</td>	
+        				<td>
+        					<p><b>Einmalig</b></p>
+        				</td>		
+        				<td>
+        					<p><b>Pause</b></p>
+        				</td>        				
+        				<td>
+        					<p><b>TC</b></p>
+        				</td>   
+        				<td>
+        					<p><b>QM</b></p>
+        				</td>         				     									  							  								  				             						  		
+        				<td>
+        					<p><b>PROD</b></p>
+        				</td>            				
+        			</tr>
+        			
+
+        			#foreach( $change in $installationBlock.change )
+	        	 		<tr>
+		        			<td>
+		        				<p>$change.source.sourceCodeManagement.subversion.repositoryUrl&nbsp;</p>
+		        			</td>
+		        			<td>
+		        				<p>$change.source.sourceCodeManagement.subversion.path&nbsp;</p>
+		        			</td>
+		        			<td>
+		        				<p>$change.target.database.schema.$change.target.database.SID&nbsp;</p>
+		        			</td>				        					
+		        			<td>
+		        				<p>$change.description&nbsp;</p>
+		        			</td>		
+		        			<td>
+		        				<p>$change.developer&nbsp;</p>
+		        			</td>		
+	        				<td>
+	        					<p>$change.onlyOnce&nbsp;</p>
+	        				</td>
+	        				<td>
+	        					<p>$change.pause&nbsp;</p>
+	        				</td>								  	
+							<td>
+								<p>$change.testCycleNumber&nbsp;</p>
+	        				</td>	
+	        				<td>
+						    #foreach( $environment in $$change.environment )
+							    #if($environment == "QM")
+							        <p>X&nbsp;</p>
+							    #end
+						    #end
+	        				</td>
+						<td>
+						    #foreach( $environment in $$change.environment )
+							    #if($environment == "PRODUCTION")
+							        <p>X&nbsp;</p>
+							    #end
+						    #end							
+	        				</td>			        							        					        								  							  					  							 		
+	        			</tr>
+        			#end 
+        	</table>        	 
+        	
+        #end 
+        
+	</body>
+</html>
+
+
+
+
+
+	
+

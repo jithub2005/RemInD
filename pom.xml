@@ -1,0 +1,359 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>at.jit.remind</groupId>
+	<artifactId>remind-parent</artifactId>
+	<version>0.8.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>JIT RemInD</name>
+	<description>Remote Interactive Deployment - parent project</description>
+
+	<scm>
+		<connection>scm:svn:http://dev.jit.at/svn/remind/open-source/trunk</connection>
+		<developerConnection>scm:svn:http://dev.jit.at/svn/remind/open-source/trunk</developerConnection>
+		<url></url>
+	</scm>
+
+	<properties>
+		<nexus.host>nexus.${env.JIT_DEV_SERVER}</nexus.host>
+
+		<java.source.version>1.6</java.source.version>
+		<java.target.version>1.6</java.target.version>
+
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
+		<maven-install-plugin.version>2.4</maven-install-plugin.version>
+		<maven-resources-plugin.version>2.6</maven-resources-plugin.version>
+		<maven-surefire-plugin.version>2.15</maven-surefire-plugin.version>
+
+		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<maven-war-plugin.version>2.3</maven-war-plugin.version>
+
+		<maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
+		<maven-release-plugin.version>2.4.1</maven-release-plugin.version>
+		<maven-scm-plugin.version>1.8.1</maven-scm-plugin.version>
+		<maven-scm-provider-svnjava.version>2.0.5</maven-scm-provider-svnjava.version>
+		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+
+		<!-- remind-core dependency versions -->
+		<svnkit.version>1.7.8</svnkit.version>
+
+		<ojdbc6.version>11.2.0.2.0</ojdbc6.version>
+		<mysql-connector-java.version>5.1.18</mysql-connector-java.version>
+
+		<velocity.version>1.7</velocity.version>
+		<itext.version>4.2.0</itext.version>
+
+		<junit.version>4.11</junit.version>
+		<wagon-file.version>2.4</wagon-file.version>
+		<wagon-ssh.version>2.4</wagon-ssh.version>
+
+		<hsqldb.version>1.8.0.10</hsqldb.version>
+
+		<commons-codec.version>1.6</commons-codec.version>
+		<commons-lang.version>2.6</commons-lang.version>
+		<commons-io.version>1.3.2</commons-io.version>
+
+		<!-- remind-web dependency versions -->
+		<jboss-javaee-6.0.version>3.0.1.Final</jboss-javaee-6.0.version>
+		<seam-bom.version>3.1.0.Final</seam-bom.version>
+		<richfaces-bom.version>4.3.3.Final</richfaces-bom.version>
+
+		<arquillian-bom.version>1.0.3.Final</arquillian-bom.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>JIT release repository</id>
+			<url>http://${nexus.host}/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>JIT snapshot repository</id>
+			<url>http://${nexus.host}/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-file</artifactId>
+				<version>${wagon-file.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>${wagon-ssh.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>at.jit.remind</groupId>
+				<artifactId>remind-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.tmatesoft.svnkit</groupId>
+				<artifactId>svnkit</artifactId>
+				<version>${svnkit.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.oracle.jdbc</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>${ojdbc6.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql-connector-java.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>${velocity.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.lowagie</groupId>
+				<artifactId>itext</artifactId>
+				<version>${itext.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-6.0</artifactId>
+				<version>${jboss-javaee-6.0.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>seam-bom</artifactId>
+				<version>${seam-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.richfaces</groupId>
+				<artifactId>richfaces-bom</artifactId>
+				<version>${richfaces-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${commons-lang.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${hsqldb.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${arquillian-bom.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven-clean-plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<configuration>
+						<source>${java.source.version}</source>
+						<target>${java.target.version}</target>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven-deploy-plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven-install-plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<includeEmptyDirs>true</includeEmptyDirs>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven-jar-plugin.version}</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+							<manifestSections>
+								<manifestSection>
+									<name>javaInformation</name>
+									<manifestEntries>
+										<sourceVersion>${java.source.version}</sourceVersion>
+										<targetVersion>${java.target.version}</targetVersion>
+									</manifestEntries>
+								</manifestSection>
+							</manifestSections>
+						</archive>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven-war-plugin.version}</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+							<manifestSections>
+								<manifestSection>
+									<name>scmInformation</name>
+									<manifestEntries>
+										<revision>${buildNumber}</revision>
+										<branch>${buildScmBranch}</branch>
+									</manifestEntries>
+								</manifestSection>
+								<manifestSection>
+									<name>javaInformation</name>
+									<manifestEntries>
+										<sourceVersion>${java.source.version}</sourceVersion>
+										<targetVersion>${java.target.version}</targetVersion>
+									</manifestEntries>
+								</manifestSection>
+							</manifestSections>
+						</archive>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dependency-plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${maven-release-plugin.version}</version>
+					<configuration>
+						<providerImplementations>
+							<svn>javasvn</svn>
+						</providerImplementations>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>com.google.code.maven-scm-provider-svnjava</groupId>
+							<artifactId>maven-scm-provider-svnjava</artifactId>
+							<version>${maven-scm-provider-svnjava.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-scm-plugin</artifactId>
+					<version>${maven-scm-plugin.version}</version>
+					<configuration>
+						<providerImplementations>
+							<svn>javasvn</svn>
+						</providerImplementations>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>com.google.code.maven-scm-provider-svnjava</groupId>
+							<artifactId>maven-scm-provider-svnjava</artifactId>
+							<version>${maven-scm-provider-svnjava.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<modules>
+		<module>remind-core</module>
+		<module>remind-web</module>
+	</modules>
+</project>

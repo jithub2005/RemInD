@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/default.xhtml">
+
+	<ui:define name="leftContent">
+		<rich:panel header="Setting types" style="overflow:auto; height:99%">
+		</rich:panel>
+	</ui:define>
+
+	<ui:define name="centerContent">
+		<rich:panel id="userListPanel" header="User List:" style="overflow:auto; height:99%;">
+			<h:form>
+				<rich:collapsiblePanel id="enterValuesPanel" header="User" switchType="client"
+					expanded="#{userController.enterValuesPanelExpanded}">
+					<rich:graphValidator id="usernameAvailable" value="#{userController.userAvailableValidator}">
+						<h:panelGrid columns="3" columnClasses="dialogRightAligned,leftAligned,leftAligned">
+							<h:outputLabel value="Username:" />
+							<h:inputText id="username" value="#{userController.entity.username}" disabled="#{!userController.usernameEditable}">
+								<rich:validator>
+									<a4j:ajax event="blur" />
+								</rich:validator>
+							</h:inputText>
+							<h:panelGroup>
+								<rich:message for="username" />
+								<rich:message for="usernameAvailable" />
+							</h:panelGroup>
+						</h:panelGrid>
+					</rich:graphValidator>
+
+					<h:panelGrid columns="3" columnClasses="dialogRightAligned,leftAligned,leftAligned">
+						<h:outputLabel value="First Name:" />
+						<h:inputText id="firstName" value="#{userController.entity.firstName}">
+							<rich:validator>
+								<a4j:ajax event="blur" />
+							</rich:validator>
+						</h:inputText>
+						<rich:message for="firstName" />
+						<h:outputLabel value="Last Name:" />
+						<h:inputText id="lastName" value="#{userController.entity.lastName}">
+							<rich:validator>
+								<a4j:ajax event="blur" />
+							</rich:validator>
+						</h:inputText>
+						<rich:message for="lastName" />
+						<h:outputLabel value="Mail Address:" />
+						<h:inputText id="mailAddress" value="#{userController.entity.mailAddress}">
+							<rich:validator>
+								<a4j:ajax event="blur" />
+							</rich:validator>
+						</h:inputText>
+						<rich:message for="mailAddress" />
+					</h:panelGrid>
+
+					<rich:graphValidator id="confirmer" value="#{userController.passwordValidator}">
+						<h:panelGrid columns="3" columnClasses="dialogRightAligned,leftAligned,leftAligned">
+							<h:outputLabel value="Password:" />
+							<h:inputSecret id="password" value="#{userController.entity.password}" redisplay="true">
+								<rich:validator>
+									<a4j:ajax event="blur" />
+								</rich:validator>
+							</h:inputSecret>
+							<rich:message for="password" />
+							<h:outputLabel value="Password Confirmation:" />
+							<h:inputSecret id="passwordConfirmation" value="#{userController.passwordValidator.confirmation}"
+								redisplay="true" />
+							<rich:message for="confirmer" />
+						</h:panelGrid>
+					</rich:graphValidator>
+
+					<div align="right" style="width: 100%;">
+						<a4j:commandLink value="Cancel" action="#{userController.cancel()}" execute="@this" render="enterValuesPanel"
+							type="reset" />
+						&nbsp;
+						<a4j:commandLink value="Save" execute="@form" action="#{userController.save()}"
+							render="enterValuesPanel, userListTable" />
+					</div>
+				</rich:collapsiblePanel>
+			</h:form>
+
+			<h:form>
+				<rich:dataTable id="userListTable" value="#{userListService.searchByUsername('')}" var="user">
+					<rich:column>
+						<f:facet name="header">Username</f:facet>
+						<h:outputText value="#{user.username}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Mail Address</f:facet>
+						<h:outputText value="#{user.mailAddress}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">First Name</f:facet>
+						<h:outputText value="#{user.firstName}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Last Name</f:facet>
+						<h:outputText value="#{user.lastName}" />
+					</rich:column>
+
+					<rich:column>
+						<f:facet name="header">
+							<a4j:commandLink id="createLink" value="New" execute="@this" action="#{userController.setId(0)}"
+								render="enterValuesPanel" />
+						</f:facet>
+						<a4j:commandLink id="deleteLink" value="Delete" execute="@this" action="#{userController.delete(user.id)}"
+							render="enterValuesPanel, userListTable" />
+						&nbsp;
+						<a4j:commandLink id="editLink" value="Edit" execute="@this" action="#{userController.setId(user.id)}"
+							render="enterValuesPanel" />
+					</rich:column>
+				</rich:dataTable>
+			</h:form>
+		</rich:panel>
+	</ui:define>
+</ui:composition>

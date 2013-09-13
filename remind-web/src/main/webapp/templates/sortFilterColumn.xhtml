@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+	<ui:composition>
+		<rich:column styleClass="#{columnValueStyleClass}" >
+			<f:facet name="header">
+				<div class="#{columnHeaderStyleClass}">
+					<div style="height: 20px;">
+						<h:outputText value="#{columnHeader}" style="float: left;" />
+						<h:commandLink value="#{msgs[filter.sortOrder]}" style="float: right;" action="#{filter.switchSortOrder()}"
+							render="@body #{scrollerId}" tabindex="32767" />
+					</div>
+					<h:inputText value="#{filter.value}" style="float: left; width: 100%;" tabindex="#{tabIndex}">
+						<a4j:ajax render="@body #{scrollerId}" event="change" execute="@form" />
+					</h:inputText>
+				</div>
+			</f:facet>
+				<h:outputText value="#{columnValue}&nbsp;" styleClass="#{columnValueStyleClass}" />
+		</rich:column>
+	</ui:composition>
+</html>

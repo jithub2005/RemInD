@@ -1,0 +1,157 @@
+table.deploymentInformationTable { border: 0px; width: 100%; }
+.deploymentInformationTable tr { height: 25px; }
+.deploymentInformationTable td:first-child { font-weight: bold; vertical-align: top; width: 150px; }
+
+table.actionDetailTable { border: 0px; }
+.actionDetailTable th { width: 200px; text-align:left }
+.actionDetailTable td { width: 200px; }
+
+.actionDetailLogsPanel {
+	float:left; 
+	margin-top: 20px; 
+	width:60%;
+	overflow: auto;
+}
+
+.actionDetailDeploymentPanel {
+	float: left;
+	margin-top: 20px;
+	margin-left: 1%;
+	width: 38%;
+}
+
+.width-date {
+	width:130px;
+}
+
+.width-action {
+	width:120px;
+}
+
+.width-filename {
+	width:280px;
+}
+
+.width-user {
+	width:90px;
+}
+
+.width-session {
+	width:220px;
+}
+
+.width-md5 {
+	width:200px;
+}
+
+.width-action-links {
+	width:70px;
+}
+
+.width-files-action-links {
+	width:250px;
+}
+
+.width-release {
+	width:60px;
+}
+
+.width-environment {
+	width:40px;
+}
+
+.width-target {
+	width:50px;
+}
+
+.width-version {
+	width:55px;
+}
+
+.width-test-cycle {
+	width:30px;
+	text-align: right;
+}
+
+.width-source-info {
+	width:230px;
+	
+	/* we need word break, e.g. long source path
+	this is supported in Internet Explorer 8+, Firefox 6+, iOS 4.2, Safari 5.1+ and Chrome 13+ */
+	-ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+
+	-webkit-hyphens: auto;
+   	-moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+.width-target-info {
+	width:230px;
+}
+
+.width-status {
+	width:50px;
+}
+
+.width-status-details {
+	width:90px;
+}
+
+.width-developer {
+	width:95px;
+}
+
+.width-log-text {
+	width:890px;
+	max-width:890px;
+	display: inline-block;
+    word-wrap: break-word;
+}
+
+.width-details-log-text {
+	width:100%;
+	max-width: 300px;
+	word-wrap: break-word;
+}
+
+.width-details-log-text-header {
+	width:100%;
+}
+
+.width-log-level  {
+	width:110px;
+}
+
+.reportsParent {
+	display: table;
+}
+
+.deploymentInformationListScroller {
+	background-color: #AAAAAA;
+	padding-top: 3px;
+	padding-bottom: 3px
+}
+
+.actionListScroller {
+	background-color: #AAAAAA;
+	padding-top: 3px;
+	padding-bottom: 3px
+}
+
+.actionLogListScroller {
+	width: 100%;
+	background-color: #AAAAAA;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.fileInfoListScroller {
+	background-color: #AAAAAA;
+	padding-top: 3px;
+	padding-bottom: 3px
+}

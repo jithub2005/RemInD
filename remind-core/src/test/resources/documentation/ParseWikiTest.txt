@@ -1,0 +1,65 @@
+�bergaben MAXIT-DB Rel 12.1
+
+ZUR�CK zu: Datenbanken ...
+ZUR�CK zu: �bergabe ...
+
+Inhaltsverzeichnis
+[Verbergen]
+
+    1 �bergabe Allgemein
+        1.1 Projects
+    2 zur �bergabe Rel 12.1, TC 01 (?)
+        2.1 Schema: maxwell
+        2.2 Schema: sep
+
+[Bearbeiten] �bergabe Allgemein
+[Bearbeiten] Projects
+
+---------------------------------------------------------------------------------------------------
+Nr        Name
+---------------------------------------------------------------------------------------------------
+?
+
+[Bearbeiten]
+zur �bergabe Rel 12.1, TC 01 (?)
+
+Grund: ?
+
+SVN Tag : cmtags/CRMDatabases_r12.1_01
+SVN Repo: http://scm.t-mobile.at/svn/Databases_deployment
+
+[Bearbeiten] Wartungsfenster
+[Bearbeiten] Schema: maxwell
+
+Verzeichnis: CRM_Databases\delivery_Databases\MAXIT\maxwell
+
+---------------------------------------------------------------------------------------------------------
+Datei Name                                            Einmalig      Auf QM        Auf Prod     Ersteller
+                                                                 installieren   installieren
+                                                       (J/N)         (J/N)          (J/N)
+---------------------------------------------------------------------------------------------------------
+\pkg\pa_prov_lade_plausi.bdy                             N           J               N         WSV
+\pkg\pa_prov_lade_plausi.sql                             N           N               J         TG
+
+
+[Bearbeiten] Schema: sep
+
+Verzeichnis: CRM_Databases\delivery_Databases\MAXIT\sep
+
+---------------------------------------------------------------------------------------------------------
+Datei Name                                            Einmalig      Auf QM        Auf Prod     Ersteller
+                                                                 installieren   installieren
+                                                       (J/N)         (J/N)          (J/N)
+---------------------------------------------------------------------------------------------------------
+\pkg\pa_prov_lade_plausi2.sql                             N           J               J         CT
+
+[Bearbeiten] Schema: xyz
+
+Verzeichnis: CRM_Databases\delivery_Databases\MAXIT\xyz
+
+---------------------------------------------------------------------------------------------------------
+Datei Name                                            Einmalig      Auf QM        Auf Prod     Ersteller
+                                                                 installieren   installieren
+                                                       (J/N)         (J/N)          (J/N)
+---------------------------------------------------------------------------------------------------------
+\pkg\pa_prov_lade_plausi3.sql                             J           J               N         CT

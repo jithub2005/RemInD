@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="schema">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="installationDocument" type="InstallationDocument" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="InstallationDocument">
+		<xs:sequence>
+			<xs:element name="installerInformation" type="InstallerInformation" />
+			<xs:element name="documentInformation" type="DocumentInformation" />
+			<xs:element name="distributionItem" type="DistributionItem" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="descriptionOfContent" type="Description" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="descriptionOfInstallationOrder" type="Description" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="descriptionOfPrecondition" type="Description" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="installationBlock" type="InstallationBlock" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InstallerInformation">
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentInformation">
+		<xs:sequence>
+			<xs:element name="title" type="xs:string" />
+			<xs:element name="target" type="xs:string" />
+			<xs:element name="release" type="xs:string" />
+			<xs:element name="testCycle" type="xs:string" />
+			<xs:element name="version" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DistributionItem">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="department" type="xs:string" />
+			<xs:element name="phone" type="xs:string" minOccurs="0" />
+			<xs:element name="mail" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Description">
+		<xs:sequence>
+			<xs:element name="caption" type="xs:string" minOccurs="0" />
+			<xs:element name="text" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InstallationBlock">
+		<xs:sequence>
+			<xs:element name="phaseDescription" type="PhaseDescription" />
+			<xs:element name="change" type="Change" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="installationBlock" type="InstallationBlock" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhaseDescription">
+		<xs:sequence>
+			<xs:element name="phase" type="Phase" />
+			<xs:element name="formattedDescription" type="FormattedDescription" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Phase">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="priorMaintenance" />
+			<xs:enumeration value="duringMaintenance" />
+			<xs:enumeration value="afterMaintenance" />
+			<xs:enumeration value="others" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FormattedDescription">
+		<xs:sequence>
+			<xs:element name="description" type="Description" />
+			<xs:element name="format" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Change">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string" />
+			<xs:element name="developer" type="xs:string" />
+			<xs:element name="onlyOnce" type="xs:boolean" />
+			<xs:element name="testCycleNumber" type="xs:integer" />
+			<xs:element name="source" type="Source" />
+			<xs:element name="target" type="Target" />
+			<xs:element name="environment" type="Environment" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="pause" type="xs:boolean" />
+			<xs:element name="atomicInstallationUnit" type="AtomicInstallationUnit" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="overridden" type="xs:boolean"/>		
+	</xs:complexType>
+	<xs:complexType name="Source">
+		<xs:choice>
+			<xs:element name="sourceCodeManagement" type="SourceCodeManagement" />
+			<xs:element name="fileSystem" type="FileSystem" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="SourceCodeManagement">
+		<xs:choice>
+			<xs:element name="subversion" type="Subversion" />
+			<xs:element name="synergy" type="Synergy" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="FileSystem">
+		<xs:sequence>
+			<xs:element name="path" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Subversion">
+		<xs:sequence>
+			<xs:element name="repositoryUrl" type="xs:string" />
+			<xs:element name="path" type="xs:string" />
+			<xs:element name="revision" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Synergy">
+		<xs:sequence>
+			<xs:element name="synergyDatabase" type="xs:string" />
+			<xs:element name="synergyProject" type="xs:string" />
+			<xs:element name="path" type="xs:string" />
+			<xs:element name="version" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Target">
+		<xs:choice>
+			<xs:element name="database" type="Database" />
+			<xs:element name="fileSystem" type="FileSystem" />
+			<xs:element name="executor" type="Executor" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Database">
+		<xs:sequence>
+			<xs:element name="SID" type="xs:string" />
+			<xs:element name="schema" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Executor">
+		<xs:sequence>
+			<xs:element name="workingPath" type="xs:string" />
+			<xs:element name="command" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Environment">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL" />
+			<xs:enumeration value="Production" />
+			<xs:enumeration value="QM" />
+			<xs:enumeration value="DEV" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AtomicInstallationUnit">
+		<xs:sequence>
+			<xs:element name="command" type="xs:string" />
+			<xs:element name="status" type="xs:string" />
+			<xs:element name="errorDescription" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

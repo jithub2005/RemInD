@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<div id="footer">
+		<div id="cell">
+			<rich:panel id="footerPanel" styleClass="footerPanel">
+				<div align="center">
+					RemInD - Remote Interactive Deployment - Version #{msgs[applicationContext.versionKey]}
+					#{applicationContext.versionSuffix} - Powered by <a href="http://www.j-it.at" target="JIT">JIT</a>
+				</div>
+			</rich:panel>
+		</div>
+	</div>
+	
+	<h:outputStylesheet library="css" name="overriddenStyles.css" />
+</ui:composition>
