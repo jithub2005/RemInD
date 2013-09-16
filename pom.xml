@@ -324,7 +324,7 @@
 			<scm>
 				<connection>scm:git:git@dev.jit.at:RemInD.git</connection>
 				<developerConnection>scm:git:git@dev.jit.at:RemInD.git</developerConnection>
-				<url><url>
+				<url></url>
 			</scm>
 			
 			<distributionManagement>
