@@ -12,9 +12,9 @@
 	<description>Remote Interactive Deployment - parent project</description>
 
 	<scm>
-		<connection>scm:svn:http://dev.jit.at/svn/remind/open-source/trunk</connection>
-		<developerConnection>scm:svn:http://dev.jit.at/svn/remind/open-source/trunk</developerConnection>
-		<url></url>
+		<connection>scm:git:git://github.com/jithub2005/RemInD.git</connection>
+		<developerConnection>scm:git:git@github.com:jithub/RemInD.git</developerConnection>
+		<url>https://github.com/jithub2005/RemInD</url>
 	</scm>
 
 	<properties>
