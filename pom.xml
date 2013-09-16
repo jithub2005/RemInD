@@ -18,8 +18,6 @@
 	</scm>
 
 	<properties>
-		<nexus.host>nexus.${env.JIT_DEV_SERVER}</nexus.host>
-
 		<java.source.version>1.6</java.source.version>
 		<java.target.version>1.6</java.target.version>
 
@@ -65,17 +63,6 @@
 
 		<arquillian-bom.version>1.0.3.Final</arquillian-bom.version>
 	</properties>
-
-	<distributionManagement>
-		<repository>
-			<id>JIT release repository</id>
-			<url>http://${nexus.host}/nexus/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>JIT snapshot repository</id>
-			<url>http://${nexus.host}/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<dependencyManagement>
 		<dependencies>
@@ -352,6 +339,26 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>JIT</id>
+			<properties>
+				<nexus.host>nexus.${env.JIT_DEV_SERVER}</nexus.host>
+			</properties>
+
+			<distributionManagement>
+				<repository>
+					<id>JIT release repository</id>
+					<url>http://${nexus.host}/nexus/content/repositories/releases</url>
+				</repository>
+				<snapshotRepository>
+					<id>JIT snapshot repository</id>
+					<url>http://${nexus.host}/nexus/content/repositories/snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+	
 	<modules>
 		<module>remind-core</module>
 		<module>remind-web</module>
