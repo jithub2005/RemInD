@@ -321,6 +321,12 @@
 				<nexus.host>nexus.${env.JIT_DEV_SERVER}</nexus.host>
 			</properties>
 
+			<scm>
+				<connection>scm:git:git@dev.jit.at:RemInD.git</connection>
+				<developerConnection>scm:git:git@dev.jit.at:RemInD.git</developerConnection>
+				<url><url>
+			</scm>
+			
 			<distributionManagement>
 				<repository>
 					<id>JIT release repository</id>
