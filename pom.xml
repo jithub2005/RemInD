@@ -12,12 +12,16 @@
 	<description>Remote Interactive Deployment - parent project</description>
 
 	<scm>
-		<connection>scm:git:git://github.com/jithub2005/RemInD.git</connection>
-		<developerConnection>scm:git:git@github.com:jithub/RemInD.git</developerConnection>
-		<url>https://github.com/jithub2005/RemInD</url>
+		<connection>${scm.connection}</connection>
+		<developerConnection>${scm.developerConnection}</developerConnection>
+		<url>${scm.url}</url>
 	</scm>
 
 	<properties>
+		<scm.connection>scm:git:git@github.com:jithub2005/RemInD.git</scm.connection>
+		<scm.developerConnection>scm:git:git@github.com:jithub/RemInD.git</scm.developerConnection>
+		<scm.url>https://github.com/jithub2005/RemInD</scm.url>
+		
 		<java.source.version>1.6</java.source.version>
 		<java.target.version>1.6</java.target.version>
 
@@ -319,6 +323,10 @@
 			<id>JIT</id>
 			<properties>
 				<nexus.host>nexus.${env.JIT_DEV_SERVER}</nexus.host>
+		
+				<scm.connection>scm:git:git@dev.jit.at:RemInD.git</scm.connection>
+				<scm.developerConnection>scm:git:git@dev.jit.at:RemInD.git</scm.developerConnection>
+				<scm.url></scm.url>
 			</properties>
 
 			<distributionManagement>
