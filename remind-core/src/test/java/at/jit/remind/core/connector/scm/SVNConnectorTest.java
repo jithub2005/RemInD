@@ -99,9 +99,6 @@ public class SVNConnectorTest
 
 		revision = svnConnector.retrieveRevision(repositoryUrl, "trunk/test.txt", "32");
 		assertSame("Revision 32 of file trunk/test does not exist: retrieved revision is 31", revision, Long.valueOf(31));
-
-		revision = svnConnector.retrieveRevision(repositoryUrl, "trunk/test.txt", "-1");
-		assertSame("Head revision of file trunk/test is 33", revision, Long.valueOf(33));
 	}
 
 	@Test(expected = SvnFileNotFoundException.class)
