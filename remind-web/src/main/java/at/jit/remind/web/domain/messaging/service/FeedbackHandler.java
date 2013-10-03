@@ -17,6 +17,7 @@ import at.jit.remind.core.context.messaging.Feedback;
 import at.jit.remind.core.context.messaging.FeedbackContext;
 import at.jit.remind.core.model.RemindModelFeedback;
 import at.jit.remind.core.model.content.database.DatabaseFeedback;
+import at.jit.remind.core.model.content.database.StatementFixedFeedback;
 import at.jit.remind.web.domain.messaging.qualifier.FeedbackReceived;
 
 @Named
@@ -48,7 +49,6 @@ public class FeedbackHandler implements Serializable
 		{
 			return;
 		}
-
 		feedbackContextMap.remove(identifier);
 		feedbackReceivedEvent.fire(feedback);
 	}
@@ -87,5 +87,12 @@ public class FeedbackHandler implements Serializable
 		logger.info("feedbackHandler.skipStatement() called");
 
 		handleFeedback(identifier, DatabaseFeedback.SkipStatement);
+	}
+	
+	public void fixStatement(String identifier, String statement)
+	{
+		logger.info("feedbackHandler.fixStatement() called");
+		
+		handleFeedback(identifier, new StatementFixedFeedback(statement));
 	}
 }
