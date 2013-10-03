@@ -17,7 +17,7 @@ import at.jit.remind.core.context.messaging.Feedback;
 import at.jit.remind.core.context.messaging.FeedbackContext;
 import at.jit.remind.core.model.RemindModelFeedback;
 import at.jit.remind.core.model.content.database.DatabaseFeedback;
-import at.jit.remind.core.model.content.database.StatementFixedFeedback;
+import at.jit.remind.core.model.content.database.FixStatementFeedback;
 import at.jit.remind.web.domain.messaging.qualifier.FeedbackReceived;
 
 @Named
@@ -93,6 +93,6 @@ public class FeedbackHandler implements Serializable
 	{
 		logger.info("feedbackHandler.fixStatement() called");
 		
-		handleFeedback(identifier, new StatementFixedFeedback(statement));
+		handleFeedback(identifier, new FixStatementFeedback(statement));
 	}
 }

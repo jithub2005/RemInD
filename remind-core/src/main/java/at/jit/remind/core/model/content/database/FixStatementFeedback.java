@@ -2,16 +2,16 @@ package at.jit.remind.core.model.content.database;
 
 import at.jit.remind.core.context.messaging.Feedback;
 
-public class StatementFixedFeedback implements Feedback
+public class FixStatementFeedback implements Feedback
 {
 	private String sqlStatement; 
 	
-	public StatementFixedFeedback()
+	public FixStatementFeedback()
 	{
 		
 	}
 	
-	public StatementFixedFeedback(String sqlStatement)
+	public FixStatementFeedback(String sqlStatement)
 	{
 		this.sqlStatement = sqlStatement;
 	}
@@ -19,7 +19,7 @@ public class StatementFixedFeedback implements Feedback
 	@Override
 	public String name() {
 		// TODO Auto-generated method stub
-		return StatementFixedFeedback.class.getName();
+		return FixStatementFeedback.class.getName();
 	}
 
 	public String getSqlStatement()
@@ -34,6 +34,6 @@ public class StatementFixedFeedback implements Feedback
 	
 	public static String getName()
 	{
-		return StatementFixedFeedback.class.getName(); 
+		return FixStatementFeedback.class.getName(); 
 	}
 }

@@ -61,16 +61,32 @@ public class AtomicSqlStatement
 	
 	public void deployCorrectedSqlStatement(String correctedSql, DbAccess dbAccess) throws MessageHandlerException
 	{
-		try
+		this.defective = true;
+		String toDeploy = correctedSql;
+		boolean isCorrected = false;
+		do 
 		{
-			correctedSqlStatements.add(correctedSql);
-			defective = true;
-			deployStatement(dbAccess, correctedSql);
+			correctedSqlStatements.add(toDeploy);
+			try
+			{
+				deployStatement(dbAccess, toDeploy);
+				isCorrected = true;
+			}
+			catch(MessageHandlerException e)
+			{
+				if(! FixStatementFeedback.getName().equals(e.getFeedback().name()))
+				{
+					throw e;
+				}
+				else
+				{
+					FixStatementFeedback feedback = (FixStatementFeedback) e.getFeedback();
+					toDeploy = feedback.getSqlStatement();
+				}
+			}
 		}
-		catch(MessageHandlerException e)
-		{
-			throw e;
-		}
+		while(!isCorrected);
+		RemindContext.getInstance().getMessageHandler().addMessage(MessageLevel.WARNING, "SQL statement fixed!", "");
 	}
 	
 	private void deployStatement(DbAccess dbAccess, String sql) throws MessageHandlerException
@@ -105,7 +121,7 @@ public class AtomicSqlStatement
 		{
 			FeedbackContext feedbackContext = new FeedbackContext.Builder().withFeedback(RemindModelFeedback.Abort, "Abort deployment")
 					.withFeedback(RemindModelFeedback.Skip, "Skip file").withFeedback(DatabaseFeedback.SkipStatement, "Skip statement")
-					.withFeedback(new StatementFixedFeedback(), "Fix Statement")
+					.withFeedback(new FixStatementFeedback(), "Fix Statement")
 					.withData(FeedbackContext.soureFilePathDataKey, statementList.getFile().getAbsolutePath())
 					.withData(FeedbackContext.errorCauseDataKey, sql).build();
 			Feedback feedback = RemindContext.getInstance().getMessageHandler()

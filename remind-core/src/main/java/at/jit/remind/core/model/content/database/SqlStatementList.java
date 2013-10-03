@@ -54,50 +54,28 @@ public class SqlStatementList
 
 					continue;
 				}
-				else if(StatementFixedFeedback.getName().equals(e.getFeedback().name()))
+				else if(FixStatementFeedback.getName().equals(e.getFeedback().name()))
 				{
-					boolean isCorrected = false;
-					boolean skipInstead = false;
-					StatementFixedFeedback feedback = (StatementFixedFeedback) e.getFeedback();
-					String sql = "";
-					do
+					FixStatementFeedback feedback = (FixStatementFeedback) e.getFeedback();
+					try
 					{
-						sql = feedback.getSqlStatement();
-						try
-						{
-							s.deployCorrectedSqlStatement(sql, dbAccess);
-							isCorrected = true;
-						}
-						catch(MessageHandlerException mhe)
-						{
-							if (DatabaseFeedback.SkipStatement.equals(mhe.getFeedback()))
-							{
-								RemindContext.getInstance().getMessageHandler().addMessage(MessageLevel.WARNING, "SQL statement skipped!", e.getMessage());
-								deploymentDetails.add("Sql statement skipped");
-								skipInstead = true;
-								break;
-							}
-							else if(!StatementFixedFeedback.getName().equals(mhe.getFeedback().name()))
-							{
-								throw mhe;
-							}
-							else
-							{
-								feedback = (StatementFixedFeedback) mhe.getFeedback();
-							}
-						}
-					}
-					while(!isCorrected);
-					
-					if(skipInstead)
-					{
+						s.deployCorrectedSqlStatement(feedback.getSqlStatement(), dbAccess);
+						deploymentDetails.add("SQL statement fixed");
 						continue;
 					}
-					else if(isCorrected)
+					catch(MessageHandlerException mhe)
 					{
-						RemindContext.getInstance().getMessageHandler().addMessage(MessageLevel.WARNING, "SQL statement fixed!", sql);
-						deploymentDetails.add("SQL statement fixed: " + sql);
-						continue;
+						if (DatabaseFeedback.SkipStatement.equals(mhe.getFeedback()))
+						{
+							RemindContext.getInstance().getMessageHandler().addMessage(MessageLevel.WARNING, "SQL statement skipped!", mhe.getMessage());
+							deploymentDetails.add("Sql statement skipped");
+
+							continue;
+						}
+						else
+						{
+							throw mhe;
+						}
 					}
 				}
 				throw e;
