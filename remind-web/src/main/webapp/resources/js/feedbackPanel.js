@@ -39,6 +39,8 @@ function render(url, identifier) {
    			jQuery('a#downloadFile').html("Download File");
    			jQuery('a#downloadStatement').html("Download Statement");
    		}
-
+   		
+   		jQuery("input#fixInput").val(data.dataMap["error.cause"]);
+   		
    	});
 }

@@ -170,6 +170,12 @@
 					<a4j:commandLink id="abort" value="Abort"
 						onclick="jQuery.post('#{feedbackUrl}/abort','#{treeBean.identifier}'); #{rich:component('feedbackPanel')}.hide(event); jQuery('#feedback').empty(); return false;" />
 				</div>
+				<div id="fixActions" style="float:left; width:100%; margin-top:10px;">
+					<input id="fixInput" type="text" style="float: left; width: 100%;"></input>
+					&nbsp;
+					<a4j:commandLink id="fixStatement" value="Fix Statement" style="float: left;" 
+						onclick="jQuery.post('#{feedbackUrl}/fixStatement', {identifier: '#{treeBean.identifier}', statement: jQuery('input#fixInput').val()}); #{rich:component('feedbackPanel')}.hide(event); jQuery('#feedback').empty(); return false;"/>
+				</div>
 			</h:form>
 		</rich:popupPanel>
 
@@ -242,7 +248,7 @@
 				$j("#console").height(consoleHeight);
 				$j("#console_body").height(consoleHeight - 40);
 			}
-
+		
 		</script>
 		
 		<h:outputStylesheet library="css" name="overriddenStyles.css" />
