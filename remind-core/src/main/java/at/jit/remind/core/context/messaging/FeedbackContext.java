@@ -8,12 +8,15 @@ public class FeedbackContext
 	public static final String soureFilePathDataKey = "source.file.path";
 	public static final String errorCauseDataKey = "error.cause";
 	public static final String errorMessageKey = "error.message";
+	public static final String containsFixFeedbackKey = "contains.fixfeedback";
 
 	private Map<Feedback, String> feedbackLabelMap = new HashMap<Feedback, String>();
 	private Map<String, String> dataMap = new HashMap<String, String>();
 
 	private FeedbackContext()
 	{
+		/*Per default FeedbackContext does not contain a FixStatementFeedback*/
+		dataMap.put(containsFixFeedbackKey, "false");
 	}
 
 	public Feedback[] getAvailableFeedbacks()

@@ -123,7 +123,8 @@ public class AtomicSqlStatement
 					.withFeedback(RemindModelFeedback.Skip, "Skip file").withFeedback(DatabaseFeedback.SkipStatement, "Skip statement")
 					.withFeedback(new FixStatementFeedback(), "Fix Statement")
 					.withData(FeedbackContext.soureFilePathDataKey, statementList.getFile().getAbsolutePath())
-					.withData(FeedbackContext.errorCauseDataKey, sql).build();
+					.withData(FeedbackContext.errorCauseDataKey, sql)
+					.withData(FeedbackContext.containsFixFeedbackKey, "true").build();
 			Feedback feedback = RemindContext.getInstance().getMessageHandler()
 					.addMessageWithFeedback(MessageLevel.ERROR, "SQLError: " + sql, e.getMessage(), feedbackContext);
 
