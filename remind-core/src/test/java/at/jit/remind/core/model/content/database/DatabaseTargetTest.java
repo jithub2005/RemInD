@@ -94,6 +94,35 @@ public class DatabaseTargetTest
 			fail(e.getMessage());
 		}
 	}
+	
+	@Test
+	public void canCorrectErroneousSQL() throws IOException
+	{
+		DatabaseTarget databaseTarget = new DatabaseTarget(environment, sid, schema);
+		FixStatementFeedback feedback = new FixStatementFeedback("insert into erroneusTestTable values(1, 'asdf')");
+		listBasedMessageHandler.setFeedback(feedback);
+		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "ErroneousSqlTest.sql";
+
+		String sqlFileAsString = FileUtils
+				.readFileToString(FileUtils.toFile(DatabaseTargetTest.class.getResource("/database/ErroneousSqlTest.sql")));
+		generateSourceFile(sourcePath, sqlFileAsString);
+		FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+		
+		try
+		{
+			SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+			databaseTarget.deploy(list);
+		}
+		catch(MessageHandlerException e)
+		{
+			fail(e.getMessage());
+		}
+		
+		/*
+		 * create table erroneusTestTable(id number description varchar2(50));
+insert into table erroneusTestTable values(1, 'asdf');
+		 * */
+	}
 
 	@Test
 	public void canValidate() throws MessageHandlerException
