@@ -44,6 +44,10 @@ public class SqlStatementList
 			try
 			{
 				s.deploy(dbAccess);
+				if(s.gotCorrected())
+				{
+					deploymentDetails.add("SQL statement fixed");
+				}
 			}
 			catch (MessageHandlerException e)
 			{
@@ -54,31 +58,10 @@ public class SqlStatementList
 
 					continue;
 				}
-				else if(FixStatementFeedback.getName().equals(e.getFeedback().name()))
+				else
 				{
-					FixStatementFeedback feedback = (FixStatementFeedback) e.getFeedback();
-					try
-					{
-						s.deployCorrectedSqlStatement(feedback.getSqlStatement(), dbAccess);
-						deploymentDetails.add("SQL statement fixed");
-						continue;
-					}
-					catch(MessageHandlerException mhe)
-					{
-						if (DatabaseFeedback.SkipStatement.equals(mhe.getFeedback()))
-						{
-							RemindContext.getInstance().getMessageHandler().addMessage(MessageLevel.WARNING, "SQL statement skipped!", mhe.getMessage());
-							deploymentDetails.add("Sql statement skipped");
-
-							continue;
-						}
-						else
-						{
-							throw mhe;
-						}
-					}
+					throw e;
 				}
-				throw e;
 			}
 		}
 	}

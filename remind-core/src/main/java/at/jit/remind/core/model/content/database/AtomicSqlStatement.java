@@ -23,6 +23,7 @@ public class AtomicSqlStatement
 	private boolean defective = false; // TODO Vielleicht nicht benötigt.
 	private int statementIndexFrom = -1;
 	private int statementIndexTo = -1;
+	private boolean gotCorrected = false;
 	
 	private List<String> correctedSqlStatements;
 
@@ -55,11 +56,26 @@ public class AtomicSqlStatement
 		}
 		catch(MessageHandlerException e)
 		{
-			throw e;
+			if(FixStatementFeedback.getName().equals(e.getFeedback().name()))
+			{
+				FixStatementFeedback feedback = (FixStatementFeedback) e.getFeedback();
+				try
+				{
+					deployCorrectedSqlStatement(feedback.getSqlStatement(), dbAccess);
+				}
+				catch(MessageHandlerException mhe)
+				{
+					throw mhe;
+				}
+			}
+			else
+			{				
+				throw e;
+			}
 		}
 	}
 	
-	public void deployCorrectedSqlStatement(String correctedSql, DbAccess dbAccess) throws MessageHandlerException
+	private void deployCorrectedSqlStatement(String correctedSql, DbAccess dbAccess) throws MessageHandlerException
 	{
 		this.defective = true;
 		String toDeploy = correctedSql;
@@ -70,6 +86,7 @@ public class AtomicSqlStatement
 			try
 			{
 				deployStatement(dbAccess, toDeploy);
+				gotCorrected = true;
 				isCorrected = true;
 			}
 			catch(MessageHandlerException e)
@@ -175,6 +192,11 @@ public class AtomicSqlStatement
 	public List<String> getCorrectedSqlStatements()
 	{
 		return this.correctedSqlStatements;
+	}
+	
+	public Boolean gotCorrected()
+	{
+		return gotCorrected;
 	}
 
 	@Override
