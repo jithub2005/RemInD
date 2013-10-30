@@ -227,8 +227,7 @@ public class PersistingMessageHandler extends ListBasedMessageHandler implements
 
 		requestFeedbackEvent.fire(formattedMessage);
 
-		// TODO: change to FeedbackContext.errorMessageKey later
-		feedbackContext.getDataMap().put("error.message", formattedMessage);
+		feedbackContext.getDataMap().put(FeedbackContext.errorMessageKey, formattedMessage);
 		feedbackHandler.addContext(identifier, feedbackContext);
 
 		latch = new CountDownLatch(1);
