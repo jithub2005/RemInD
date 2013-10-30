@@ -109,8 +109,11 @@ public class SubversionSource implements Validate, Source<File>
 		{
 			FeedbackContext feedbackContext = new FeedbackContext.Builder().withFeedback(RemindModelFeedback.Abort, "Abort deployment")
 					.withFeedback(RemindModelFeedback.Skip, "Skip file").build();
-			Feedback feedback = RemindContext.getInstance().getMessageHandler()
-					.addMessageWithFeedback(MessageLevel.ERROR, "SVN error occurred", e.getMessage(), feedbackContext);
+			Feedback feedback = RemindContext
+					.getInstance()
+					.getMessageHandler()
+					.addMessageWithFeedback(MessageLevel.ERROR, "SVN error occurred\nCheck revision number and if svn:keywords are set",
+							e.getMessage(), feedbackContext);
 
 			throw new MessageHandlerException(e, feedback);
 		}
