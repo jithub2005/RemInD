@@ -4,7 +4,7 @@
 
 	<groupId>at.jit.remind</groupId>
 	<artifactId>remind-parent</artifactId>
-	<version>0.8.0-SNAPSHOT</version>
+	<version>0.8.0</version>
 	<packaging>pom</packaging>
 
 	<name>JIT RemInD</name>
@@ -14,7 +14,7 @@
 		<connection>scm:git:git@dev.jit.at:RemInD.git</connection>
 		<developerConnection>scm:git:git@dev.jit.at:RemInD.git</developerConnection>
 		<url>https://github.com/jithub2005/RemInD</url>
-		<tag>HEAD</tag>
+		<tag>0.8.0</tag>
 	</scm>
 
 	<properties>
