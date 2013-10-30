@@ -147,7 +147,7 @@
 		<a4j:push address="#{consoleBean.feedbackPushAddress}"
 			ondataavailable="#{rich:component('feedbackPanel')}.show(event); return false;" onerror="alert(event.rf.data)" />
 
-		<rich:popupPanel id="feedbackPanel" header="Request user feedback" modal="true" width="750" height="400" resizeable="false"
+		<rich:popupPanel id="feedbackPanel" header="Request user feedback" modal="true" width="750" height="430" resizeable="false"
 			moveable="true" show="#{consoleBean.feedbackPending}" onbeforeshow="render('#{feedbackUrl}', '#{treeBean.identifier}');" >
 			<div style="width: 100%; height: 320px; overflow-y: auto;">
 				<ul style="width: 90%;">
@@ -155,12 +155,20 @@
 				</ul>
 			</div>
 			<h:form id="feedbackFormSkip">
-				<div id="downloadActions" style="float:left; width:50%; margin-top:25px;">
+				<div id="fixActions" style="float:left; width:100%; margin-top:20px;">
+					<input id="fixInput" type="text" style="float: left; width: 88%;"></input>
+					<a4j:commandLink id="fixStatement" value="Fix Statement" style="float: right;" 
+						onclick="jQuery.post('#{feedbackUrl}/fixStatement', {identifier: '#{treeBean.identifier}', statement: jQuery('input#fixInput').val()}); #{rich:component('feedbackPanel')}.hide(event); jQuery('#feedback').empty(); return false;"/>
+					&nbsp;
+				</div>
+				<div id="downloadActions" style="float:left; width:50%;">
+					<br />
 					<a id="downloadFile" class="rf-fu-itm-lnk" href="#{feedbackUrl}/context/source/#{treeBean.identifier}" target="downloadPage">File</a>
 					&nbsp;
 					<a id="downloadStatement" class="rf-fu-itm-lnk" href="#{feedbackUrl}/context/errorcause/#{treeBean.identifier}" target="downloadPage">Statement</a>
 				</div>
-				<div id="panelActions" align="right" style="float:left; width:50%; margin-top:25px;">
+				<div id="panelActions" align="right" style="float:left; width:50%;">
+					<br />
 					<a4j:commandLink id="skipStatement" value="Skip Statement"
 						onclick="jQuery.post('#{feedbackUrl}/skipStatement','#{treeBean.identifier}'); #{rich:component('feedbackPanel')}.hide(event); jQuery('#feedback').empty(); return false;" />
 					&nbsp;
@@ -242,7 +250,7 @@
 				$j("#console").height(consoleHeight);
 				$j("#console_body").height(consoleHeight - 40);
 			}
-
+		
 		</script>
 		
 		<h:outputStylesheet library="css" name="overriddenStyles.css" />

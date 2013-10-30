@@ -44,6 +44,10 @@ public class SqlStatementList
 			try
 			{
 				s.deploy(dbAccess);
+				if(s.gotCorrected())
+				{
+					deploymentDetails.add("SQL statement fixed");
+				}
 			}
 			catch (MessageHandlerException e)
 			{
@@ -54,8 +58,10 @@ public class SqlStatementList
 
 					continue;
 				}
-
-				throw e;
+				else
+				{
+					throw e;
+				}
 			}
 		}
 	}

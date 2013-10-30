@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -125,5 +126,15 @@ public class FeedbackRestService
 		logger.info("FeedbackRestService: POST /abort " + identifier);
 		feedbackHandler.abort(identifier);
 		logger.info("Aborted: " + identifier);
+	}
+	
+	@POST
+	@Consumes("application/x-www-form-urlencoded")
+	@Path("/fixStatement")
+	public void fixStatement(@FormParam("identifier") String identifier, @FormParam("statement") String statement)
+	{
+		logger.info("FeedbackRestService POST /fixStatement " + identifier + "; " + statement);
+		feedbackHandler.fixStatement(identifier, statement);
+		logger.info("Fixed Statement: " + identifier + "; " + statement);
 	}
 }
