@@ -50,7 +50,7 @@ public class SVNConnector
 		SVNUpdateClient updateClient = svnClientManager.getUpdateClient();
 		updateClient.setIgnoreExternals(false);
 		updateClient.setExportExpandsKeywords(true);
-		updateClient.doExport(svnRepository.getLocation().appendPath(path, false), targetFile, SVNRevision.create(Long.valueOf(revision)),
+		updateClient.doExport(svnRepository.getLocation().appendPath(path, false), targetFile, SVNRevision.create(Long.valueOf(-1)),
 				SVNRevision.create(Long.valueOf(revision)), null, true, SVNDepth.INFINITY);
 	}
 
