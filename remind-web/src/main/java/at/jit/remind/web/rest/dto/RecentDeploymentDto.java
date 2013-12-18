@@ -4,11 +4,13 @@ import java.util.Date;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 
-public class RecentDeploymentDto extends DtoBase
+public class RecentDeploymentDto
 {
 	private Long fileInfoId;
 	private String date;
 	private String fileName;
+
+	private String details;
 
 	public Long getFileInfoId()
 	{
@@ -38,5 +40,15 @@ public class RecentDeploymentDto extends DtoBase
 	public void setFileName(String fileName)
 	{
 		this.fileName = fileName;
+	}
+
+	public String getDetails()
+	{
+		return details;
+	}
+
+	public void setDetails(String details)
+	{
+		this.details = details;
 	}
 }

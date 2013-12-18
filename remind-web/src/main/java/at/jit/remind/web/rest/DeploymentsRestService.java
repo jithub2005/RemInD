@@ -12,13 +12,17 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import at.jit.remind.core.xml.Environment;
 import at.jit.remind.web.domain.base.model.CriteriaFilterBase;
 import at.jit.remind.web.domain.base.model.CriteriaQueryParameterHolder;
 import at.jit.remind.web.domain.base.model.GreaterThanOrEqualFilter;
 import at.jit.remind.web.domain.context.reporting.model.FileInfo;
 import at.jit.remind.web.domain.context.reporting.service.FileInfoService;
+import at.jit.remind.web.rest.dto.DeploymentDetailsDto;
+import at.jit.remind.web.rest.dto.DeploymentDetailsDto.StatisticsDto;
 import at.jit.remind.web.rest.dto.RecentDeploymentDto;
 import at.jit.remind.web.rest.dto.RecentDeploymentDtoList;
 
@@ -27,6 +31,8 @@ public class DeploymentsRestService
 {
 	private static final String firstResultQueryParameter = "fr";
 	private static final String maxResultsQueryParameter = "mr";
+
+	private static final String fileInfoIdQueryParameter = "fiid";
 
 	@Context
 	private UriInfo uriInfo;
@@ -63,6 +69,8 @@ public class DeploymentsRestService
 			dto.setFileInfoId(fileInfo.getId());
 			dto.setDate(fileInfo.getCreatedOn());
 			dto.setFileName(fileInfo.getName());
+			dto.setDetails(createDetailsUrl(fileInfo.getId()));
+
 			recentDeploymentDtos.getData().add(dto);
 		}
 
@@ -78,5 +86,43 @@ public class DeploymentsRestService
 	{
 		return uriInfo.getAbsolutePathBuilder().queryParam(firstResultQueryParameter, firstResult).queryParam(maxResultsQueryParameter, maxResults).build()
 				.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/details")
+	public Response getDeploymentDetails(@DefaultValue("0") @QueryParam(fileInfoIdQueryParameter) long fileInfoId)
+	{
+		if (fileInfoId == 0)
+		{
+			return Response.noContent().build();
+		}
+
+		DeploymentDetailsDto dto = new DeploymentDetailsDto();
+		dto.setFileName("Will be set later");
+		dto.setDate(new Date());
+
+		// TODO: retrieve real data
+		for (Environment environment : Environment.values())
+		{
+			// TODO: remove later
+			if (environment == Environment.ALL)
+			{
+				continue;
+			}
+			
+			StatisticsDto statisticsDto = dto.createAndAddStatistics(environment.toString());
+			statisticsDto.setCountChanges((int) (Math.random() * 15));
+			statisticsDto.setCountWarning((int) (statisticsDto.getCountChanges() * Math.random() * 0.2));
+			statisticsDto.setCountError((int) (statisticsDto.getCountChanges() * Math.random() * 0.1));
+			statisticsDto.setCountOk(statisticsDto.getCountChanges() - statisticsDto.getCountWarning() - statisticsDto.getCountError());
+		}
+
+		return Response.ok(dto).build();
+	}
+
+	private String createDetailsUrl(long fileInfoId)
+	{
+		return uriInfo.getAbsolutePathBuilder().queryParam(fileInfoIdQueryParameter, fileInfoId).build().toString();
 	}
 }
