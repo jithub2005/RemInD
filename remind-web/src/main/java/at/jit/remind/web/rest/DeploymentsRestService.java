@@ -123,6 +123,6 @@ public class DeploymentsRestService
 
 	private String createDetailsUrl(long fileInfoId)
 	{
-		return uriInfo.getAbsolutePathBuilder().queryParam(fileInfoIdQueryParameter, fileInfoId).build().toString();
+		return uriInfo.getBaseUriBuilder().path("/deployments/details").queryParam(fileInfoIdQueryParameter, fileInfoId).build().toString();
 	}
 }
