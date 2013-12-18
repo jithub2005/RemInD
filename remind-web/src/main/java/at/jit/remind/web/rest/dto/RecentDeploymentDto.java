@@ -29,7 +29,7 @@ public class RecentDeploymentDto
 
 	public void setDate(Date date)
 	{
-		this.date = DateFormatUtils.format(date, "dd.MM.yyyy hh:mm:ss");
+		this.date = DateFormatUtils.format(date, "dd.MM.yyyy HH:mm:ss");
 	}
 
 	public String getFileName()
