@@ -74,6 +74,11 @@
 			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+		</dependency>
+
 		<!-- Seam dependencies -->
 		<dependency>
 			<groupId>org.jboss.solder</groupId>
