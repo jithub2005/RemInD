@@ -15,12 +15,14 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import at.jit.remind.core.xml.Environment;
 import at.jit.remind.web.domain.base.model.CriteriaFilterBase;
 import at.jit.remind.web.domain.base.model.CriteriaQueryParameterHolder;
 import at.jit.remind.web.domain.base.model.GreaterThanOrEqualFilter;
+import at.jit.remind.web.domain.base.model.NamedQueryParameterHolder;
 import at.jit.remind.web.domain.context.reporting.model.FileInfo;
+import at.jit.remind.web.domain.context.reporting.model.PersistedDeploymentInformation;
 import at.jit.remind.web.domain.context.reporting.service.FileInfoService;
+import at.jit.remind.web.domain.context.reporting.service.PersistedDeploymentService;
 import at.jit.remind.web.rest.dto.DeploymentDetailsDto;
 import at.jit.remind.web.rest.dto.DeploymentDetailsDto.StatisticsDto;
 import at.jit.remind.web.rest.dto.RecentDeploymentDto;
@@ -42,6 +44,9 @@ public class DeploymentsRestService
 
 	@EJB
 	private FileInfoService fileInfoService;
+
+	@EJB
+	private PersistedDeploymentService deploymentService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -93,29 +98,27 @@ public class DeploymentsRestService
 	@Path("/details")
 	public Response getDeploymentDetails(@DefaultValue("0") @QueryParam(fileInfoIdQueryParameter) long fileInfoId)
 	{
-		if (fileInfoId == 0)
+		FileInfo fileInfo = fileInfoService.find(fileInfoId);
+
+		if (fileInfo == null)
 		{
 			return Response.noContent().build();
 		}
 
 		DeploymentDetailsDto dto = new DeploymentDetailsDto();
-		dto.setFileName("Will be set later");
-		dto.setDate(new Date());
+		dto.setFileName(fileInfo.getName());
+		dto.setDate(fileInfo.getCreatedOn());
 
-		// TODO: retrieve real data
-		for (Environment environment : Environment.values())
+		NamedQueryParameterHolder<PersistedDeploymentInformation> parameterHolder = new NamedQueryParameterHolder<PersistedDeploymentInformation>(
+				PersistedDeploymentInformation.class);
+		parameterHolder.setQueryName(PersistedDeploymentInformation.FindByFileInfoId);
+		parameterHolder.setParameter(PersistedDeploymentInformation.FileInfoId, fileInfoId);
+		List<PersistedDeploymentInformation> deploymentInformationList = deploymentService.find(parameterHolder);
+
+		for (PersistedDeploymentInformation pdi : deploymentInformationList)
 		{
-			// TODO: remove later
-			if (environment == Environment.ALL)
-			{
-				continue;
-			}
-			
-			StatisticsDto statisticsDto = dto.createAndAddStatistics(environment.toString());
-			statisticsDto.setCountChanges((int) (Math.random() * 15));
-			statisticsDto.setCountWarning((int) (statisticsDto.getCountChanges() * Math.random() * 0.2));
-			statisticsDto.setCountError((int) (statisticsDto.getCountChanges() * Math.random() * 0.1));
-			statisticsDto.setCountOk(statisticsDto.getCountChanges() - statisticsDto.getCountWarning() - statisticsDto.getCountError());
+			StatisticsDto statisticsDto = dto.getStatistics(pdi.getEnvironment());
+			statisticsDto.incrementCount(pdi.getStatus());
 		}
 
 		return Response.ok(dto).build();

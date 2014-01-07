@@ -19,9 +19,10 @@ import at.jit.remind.web.domain.base.model.EntityBase;
 		@AttributeOverride(name = "createdOn", column = @Column(name = "DPI_CREATED_ON", updatable = false)),
 		@AttributeOverride(name = "modifiedOn", column = @Column(name = "DPI_MODIFIED_ON"))})
 @NamedQueries({
-		@NamedQuery(name = "PersistedDeploymentInformation.findSourceAndTarget", query = "select d from PersistedDeploymentInformation d where d.sourceInfo =:sourceInfo and d.targetInfo =:targetInfo order by d.createdOn desc"),
-		@NamedQuery(name = "PersistedDeploymentInformation.findDeploymentByAction", query = "select d from PersistedDeploymentInformation d where d.actionId =:actionId"),
-		@NamedQuery(name = "PersistedDeploymentInformation.selectAll", query = "select d from PersistedDeploymentInformation d order by d.release desc, d.environment desc, d.target asc, d.createdOn desc")})
+		@NamedQuery(name = "PersistedDeploymentInformation.findSourceAndTarget", query = "select d from PersistedDeploymentInformation d where d.sourceInfo = :sourceInfo and d.targetInfo = :targetInfo order by d.createdOn desc"),
+		@NamedQuery(name = "PersistedDeploymentInformation.findDeploymentByAction", query = "select d from PersistedDeploymentInformation d where d.actionId = :actionId"),
+		@NamedQuery(name = "PersistedDeploymentInformation.selectAll", query = "select d from PersistedDeploymentInformation d order by d.release desc, d.environment desc, d.target asc, d.createdOn desc"),
+		@NamedQuery(name = "PersistedDeploymentInformation.findByFileInfoId", query = "select d from PersistedDeploymentInformation d where d.actionId in (select a.id from Action a where a.fileInfo.id = :fileInfoId)")})
 public class PersistedDeploymentInformation extends EntityBase
 {
 	private static final long serialVersionUID = -5299878883610113126L;
@@ -29,8 +30,10 @@ public class PersistedDeploymentInformation extends EntityBase
 	public static final String FindSourceAndTarget = PersistedDeploymentInformation.class.getSimpleName() + ".findSourceAndTarget";
 	public static final String FindDeploymentByAction = PersistedDeploymentInformation.class.getSimpleName() + ".findDeploymentByAction";
 	public static final String SelectAll = PersistedDeploymentInformation.class.getSimpleName() + ".selectAll";
+	public static final String FindByFileInfoId = PersistedDeploymentInformation.class.getSimpleName() + ".findByFileInfoId";
 	public static final String SourceInfo = "sourceInfo";
 	public static final String TargetInfo = "targetInfo";
+	public static final String FileInfoId = "fileInfoId";
 
 	@Column(name = "DPI_DEPLOYMENT_VERSION")
 	private String deploymentVersion;

@@ -78,7 +78,7 @@ public class DeploymentService implements DeploymentInformationService
 	{
 		try
 		{
-			return (PersistedDeploymentInformation) entityManager.createNamedQuery(PersistedDeploymentInformation.FindDeploymentByAction)
+			return entityManager.createNamedQuery(PersistedDeploymentInformation.FindDeploymentByAction, PersistedDeploymentInformation.class)
 					.setParameter("actionId", actionId).getSingleResult();
 		}
 		catch (NoResultException e)

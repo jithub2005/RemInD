@@ -2,16 +2,20 @@ package at.jit.remind.web.rest.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.time.DateFormatUtils;
+
+import at.jit.remind.core.model.status.State;
 
 public class DeploymentDetailsDto
 {
 	private String date;
 	private String fileName;
 
-	private List<StatisticsDto> statistics = new ArrayList<DeploymentDetailsDto.StatisticsDto>();
+	private Map<String, StatisticsDto> environmentStatisticsMap = new HashMap<String, DeploymentDetailsDto.StatisticsDto>();
 
 	public String getDate()
 	{
@@ -35,16 +39,21 @@ public class DeploymentDetailsDto
 
 	public List<StatisticsDto> getStatistics()
 	{
-		return statistics;
+		return new ArrayList<DeploymentDetailsDto.StatisticsDto>(environmentStatisticsMap.values());
 	}
 	
-	public StatisticsDto createAndAddStatistics(String environment)
+	public StatisticsDto getStatistics(String environment)
 	{
-		StatisticsDto dto = new StatisticsDto();
-		dto.setEnvironment(environment);
-		statistics.add(dto);
+		if (!environmentStatisticsMap.containsKey(environment))
+		{
+			StatisticsDto dto = new StatisticsDto();
+			dto.setEnvironment(environment);
+			environmentStatisticsMap.put(environment, dto);
+			
+			return dto;
+		}
 		
-		return dto;
+		return environmentStatisticsMap.get(environment);
 	}
 
 	public class StatisticsDto
@@ -70,19 +79,9 @@ public class DeploymentDetailsDto
 			return countChanges;
 		}
 
-		public void setCountChanges(int countChanges)
-		{
-			this.countChanges = countChanges;
-		}
-
 		public int getCountOk()
 		{
 			return countOk;
-		}
-
-		public void setCountOk(int countOk)
-		{
-			this.countOk = countOk;
 		}
 
 		public int getCountWarning()
@@ -90,19 +89,29 @@ public class DeploymentDetailsDto
 			return countWarning;
 		}
 
-		public void setCountWarning(int countWarning)
-		{
-			this.countWarning = countWarning;
-		}
-
 		public int getCountError()
 		{
 			return countError;
 		}
 
-		public void setCountError(int countError)
+		public void incrementCount(String status)
 		{
-			this.countError = countError;
+			switch(State.valueOf(status))
+			{
+				case Ok:
+					countOk++;
+					countChanges++;
+					break;
+				case Warning:
+					countWarning++;
+					countChanges++;
+					break;
+				case Error:
+					countError++;
+					countChanges++;
+					break;
+				case Unknown:
+			}
 		}
 	}
 }
