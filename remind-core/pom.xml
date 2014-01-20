@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>at.jit.remind</groupId>
 		<artifactId>remind-parent</artifactId>
-		<version>0.8.1-SNAPSHOT</version>
+		<version>0.9.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>remind-core</artifactId>
