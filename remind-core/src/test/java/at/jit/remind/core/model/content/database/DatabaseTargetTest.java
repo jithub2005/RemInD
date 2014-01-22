@@ -171,7 +171,8 @@ insert into table erroneusTestTable values(1, 'asdf');
 		listBasedMessageHandler.setFeedback(RemindModelFeedback.Abort);
 
 		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
-		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "DatabaseTargetOracleTestSourceFile.sql";
+		String sourcePath = System.getProperty("java.io.tmpdir") + "/"
+				+ "DatabaseTargetOracleTestSourceFile.sql";
 		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class.getResource("/database/SQLParserTestSlash2.sql")));
 
 		generateSourceFile(sourcePath, sqlFileAsString);
@@ -188,6 +189,31 @@ insert into table erroneusTestTable values(1, 'asdf');
 		{
 			fail(e.getMessage());
 		}
+	}
+	
+	@Ignore
+	@Test
+	public void canDeployCommentsWithHyphensToOracleDb() throws IOException
+	{
+		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
+		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "OracleBug1559Source.sql";
+		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class
+				.getResource("/database/DatabaseTargetOracleBug1559.sql")));
+
+		generateSourceFile(sourcePath, sqlFileAsString);
+		FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+
+		try
+		{
+			SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+			databaseTarget.deploy(list);
+
+			assertTrue(true);
+		}
+		catch (MessageHandlerException e)
+		{
+			fail(e.getMessage());
+		}	
 	}
 
 	@Test(expected = MessageHandlerException.class)

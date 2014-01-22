@@ -89,7 +89,17 @@ public class SqlParser
 					isInCommentModeOutsideStatement = true;
 					continue;
 				}
-
+				
+				if (isSingleLineCommentOutsideStatement(matchingLine))
+				{
+					AtomicSqlStatement stmt = new AtomicSqlStatement(statementList, matchingLine, true);
+					stmt.setStatementIndexFrom(index + 1);
+					index += commentBuilder.length();
+					stmt.setStatementIndexTo(index);
+					
+					continue;
+				}
+					
 				ParserDefinitionDocument parseDefinitionDocument = parserSchema.getParserDefinitionDocument();
 				List<StartTag> startTagList = parseDefinitionDocument.getStartTag();
 				Iterator<StartTag> iter = startTagList.iterator();
@@ -202,6 +212,11 @@ public class SqlParser
 				}
 			}
 		}
+	}
+
+	private boolean isSingleLineCommentOutsideStatement(String compareLine) 
+	{
+		return compareLine.startsWith(comment);
 	}
 
 	private boolean isCommentLineBegin(String compareLine, String tag)

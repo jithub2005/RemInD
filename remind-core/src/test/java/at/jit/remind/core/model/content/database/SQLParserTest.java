@@ -89,6 +89,15 @@ public class SQLParserTest
 
 		assertSame("Expected statement count of SQLParserTestTableComments.sql is 6", 6, statementList.size());
 	}
+	
+	@Test
+	public void canHandleSingleLineCommentsWithHyphens() throws IOException, MessageHandlerException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestSingleLineComment.sql"));
+		sqlParser.parse(statementList);
+		
+		assertSame("Expected statement count of SQLParserTestTableComments.sql is 6", 6, statementList.size());
+	}
 
 	@Test
 	public void canHandleCommentsInsideFunctionsInSqlFileProperly() throws IOException, MessageHandlerException
