@@ -206,6 +206,9 @@
 		    <endTag>
 		        <tag>;</tag>
 		    </endTag>
+		     <endTag>
+		        <tag>/</tag>
+		    </endTag>
 		</startTag>
 	</parserDefinitionDocument>
 </parserSchema>

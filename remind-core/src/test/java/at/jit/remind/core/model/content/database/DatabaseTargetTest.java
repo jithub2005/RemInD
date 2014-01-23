@@ -193,7 +193,7 @@ insert into table erroneusTestTable values(1, 'asdf');
 	
 	@Ignore
 	@Test
-	public void canDeployCommentsWithHyphensToOracleDb() throws IOException
+	public void canDeployCommentsWithHyphensAndBackslashesToOracleDb() throws IOException
 	{
 		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
 		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "OracleBug1559Source.sql";

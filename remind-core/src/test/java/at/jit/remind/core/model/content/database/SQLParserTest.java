@@ -107,7 +107,16 @@ public class SQLParserTest
 
 		assertSame("Expected statement count of SQLParserTestCommentsInsideFunction.sql is 20", 20, statementList.size());
 	}
-
+	
+	@Test
+	public void canQuitCommandOnWithBackslash() throws MessageHandlerException, IOException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestQuitCommentOnWithBackslash.sql"));
+		sqlParser.parse(statementList);
+		
+		assertSame("Expected statement count of SQLParserTestTableComments.sql is 7", 7, statementList.size());		
+	}
+	
 	private File setUpSqlFile(String fileName) throws IOException
 	{
 		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class.getResource("/database/" + fileName)));
