@@ -1,6 +1,7 @@
 package at.jit.remind.core.model.content.database;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.BufferedWriter;
@@ -214,6 +215,30 @@ insert into table erroneusTestTable values(1, 'asdf');
 		{
 			fail(e.getMessage());
 		}	
+	}
+	
+	@Ignore
+	@Test
+	public void canHandleMultipleSemicolonsOnNextLine() throws IOException
+	{
+		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
+		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "DatabaseTargetTestMultipleSemicolonsInNextLine.sql";
+		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class.getResource("/database/DatabaseTargetTestMultipleSemicolonsInNextLine.sql")));
+
+		generateSourceFile(sourcePath, sqlFileAsString);
+		FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+
+		try
+		{
+			SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+			databaseTarget.deploy(list);
+
+			assertTrue(true);
+		}
+		catch (MessageHandlerException e)
+		{
+			fail(e.getMessage());
+		}			
 	}
 
 	@Test(expected = MessageHandlerException.class)

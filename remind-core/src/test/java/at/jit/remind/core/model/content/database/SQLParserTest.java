@@ -87,7 +87,9 @@ public class SQLParserTest
 		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestTableComments.sql"));
 		sqlParser.parse(statementList);
 
-		assertSame("Expected statement count of SQLParserTestTableComments.sql is 6", 6, statementList.size());
+		//Rem. m.pitha: Changed size from 6 to 5 due to #1569. There are only 5 statements in this sql file. 
+		//The semicolon in the last line belongs to the previous statement.
+		assertSame("Expected statement count of SQLParserTestTableComments.sql is 5", 5, statementList.size());
 	}
 	
 	@Test
@@ -115,6 +117,15 @@ public class SQLParserTest
 		sqlParser.parse(statementList);
 		
 		assertSame("Expected statement count of SQLParserTestTableComments.sql is 7", 7, statementList.size());		
+	}
+	
+	@Test
+	public void canHandleSemicolonInNextLine() throws MessageHandlerException, IOException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestSemicolonInNextLine.sql"));
+		sqlParser.parse(statementList);
+		
+		assertSame("Expected statement count of SQLParserTestSemicolonInNextLine.sql is 2", 2, statementList.size());	
 	}
 	
 	private File setUpSqlFile(String fileName) throws IOException

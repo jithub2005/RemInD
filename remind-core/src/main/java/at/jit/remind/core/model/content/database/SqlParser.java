@@ -157,7 +157,7 @@ public class SqlParser
 
 								String lineBuffer = reader.readLine();
 
-								if (lineBuffer != null)
+								if (lineBuffer != null && !";".equals(lineBuffer.trim()))
 								{
 									originalLine = lineBuffer;
 									matchingLine = lineBuffer.toLowerCase(Locale.ENGLISH).trim();
