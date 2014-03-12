@@ -55,12 +55,48 @@ public class SQLParserTest
 	}
 
 	@Test
-	public void canHandlePlSqlAndJavaInSqlFile() throws IOException, MessageHandlerException
+	public void canHandlePlSqlAndCreateOrReplaceAndCompileJava() throws IOException, MessageHandlerException
 	{
 		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTest2OriginalOracle.sql"));
 		sqlParser.parse(statementList);
 
 		assertSame("Expected statement count of SQLParserTest2OriginalOracle.sql is 17", 17, statementList.size());
+	}
+	
+	@Test
+	public void canHandlePlSqlAndCreateOrReplaceAndResolveJava() throws IOException, MessageHandlerException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestCreateOrReplaceAndResolve.sql"));
+		sqlParser.parse(statementList);
+
+		assertSame("Expected statement count of SQLParserTest2OriginalOracle.sql is 11", 11, statementList.size());		
+	}
+	
+	@Test
+	public void canHandleJavadocCommentsInJavaCode() throws MessageHandlerException, IOException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestJavaStatementWithJavadoc.sql"));
+		sqlParser.parse(statementList);
+
+		assertSame("Expected statement count of SQLParserTest2OriginalOracle.sql is 2", 2, statementList.size());			
+	}
+	
+	@Test
+	public void canHandleMultilineDocCommentsInJavaCode() throws MessageHandlerException, IOException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestJavaStatementWithMultilineDoc.sql"));
+		sqlParser.parse(statementList);
+
+		assertSame("Expected statement count of SQLParserTest2OriginalOracle.sql is 2", 2, statementList.size());			
+	}
+	
+	@Test
+	public void canHandleSingleLineCommentsInJavaCode() throws MessageHandlerException, IOException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestJavaStatementWithSingleLineDoc.sql"));
+		sqlParser.parse(statementList);
+
+		assertSame("Expected statement count of SQLParserTest2OriginalOracle.sql is 2", 2, statementList.size());			
 	}
 
 	@Test

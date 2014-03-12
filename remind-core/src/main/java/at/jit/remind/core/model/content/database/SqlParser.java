@@ -25,6 +25,7 @@ public class SqlParser
 	private ParserSchema parserSchema;
 	private static String commentStartTag = "/*";
 	private static String comment = "--";
+	private static String javaComment = "//";
 	private static String commentEnd = "*/";
 	private static String commentBlankEnd = "* /";
 
@@ -89,17 +90,17 @@ public class SqlParser
 					isInCommentModeOutsideStatement = true;
 					continue;
 				}
-				
+
 				if (isSingleLineCommentOutsideStatement(matchingLine))
 				{
 					AtomicSqlStatement stmt = new AtomicSqlStatement(statementList, matchingLine, true);
 					stmt.setStatementIndexFrom(index + 1);
 					index += commentBuilder.length();
 					stmt.setStatementIndexTo(index);
-					
+
 					continue;
 				}
-					
+
 				ParserDefinitionDocument parseDefinitionDocument = parserSchema.getParserDefinitionDocument();
 				List<StartTag> startTagList = parseDefinitionDocument.getStartTag();
 				Iterator<StartTag> iter = startTagList.iterator();
@@ -207,22 +208,25 @@ public class SqlParser
 				}
 				catch (IOException e)
 				{
-					RemindContext.getInstance().getMessageHandler()
-							.addMessage(MessageLevel.WARNING, "BufferedReader in SQLParser class was not closed!", e.getMessage());
+					RemindContext.getInstance().getMessageHandler().addMessage(MessageLevel.WARNING, "BufferedReader in SQLParser class was not closed!", e.getMessage());
 				}
 			}
 		}
 	}
 
-	private boolean isSingleLineCommentOutsideStatement(String compareLine) 
+	private boolean isSingleLineCommentOutsideStatement(String compareLine)
 	{
-		return compareLine.startsWith(comment);
+		return compareLine.trim().startsWith(comment);
 	}
 
 	private boolean isCommentLineBegin(String compareLine, String tag)
 	{
-		if (compareLine.startsWith(tag)
-				&& !(compareLine.startsWith(commentStartTag) || compareLine.endsWith(commentBlankEnd) || compareLine.endsWith(commentEnd)))
+		compareLine = compareLine.trim();
+
+		// Java commands consist of one whole command including java code and java comments, so we have to exclude java comments from recognition.
+		// Otherwise the parser would think the statements ends here.
+		if (compareLine.startsWith(tag) && 
+				!(compareLine.startsWith(javaComment) || compareLine.startsWith(commentStartTag) || compareLine.endsWith(commentBlankEnd) || compareLine.endsWith(commentEnd)))
 		{
 			return true;
 		}
@@ -234,9 +238,8 @@ public class SqlParser
 
 	private boolean isCommentLineEnd(String compareLine, String tag)
 	{
-		if (compareLine.endsWith(tag)
-				&& !(compareLine.startsWith(commentStartTag) || compareLine.endsWith(commentBlankEnd) || compareLine.endsWith(commentEnd) || compareLine
-						.startsWith(comment)))
+		if (compareLine.endsWith(tag) && 
+				!(compareLine.startsWith(javaComment) || compareLine.startsWith(commentStartTag) || compareLine.endsWith(commentBlankEnd) || compareLine.endsWith(commentEnd) || compareLine.startsWith(comment)))
 		{
 			return true;
 		}

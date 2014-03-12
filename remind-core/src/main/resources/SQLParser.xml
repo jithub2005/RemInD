@@ -8,7 +8,7 @@
 			<endTag>
 				<tag>/</tag>
 			</endTag>
-		</startTag>		
+		</startTag>
 		<startTag>
 			<tag>BEGIN</tag>
 			<endTag>
@@ -16,20 +16,14 @@
 			</endTag>
 		</startTag>
 		<startTag>
-			<tag>BEGIN </tag>
-			<endTag>
-				<tag>/</tag>
-			</endTag>
-		</startTag>		
-		<startTag>
 			<tag>GRANT </tag>
 			<endTag>
 				<tag>;</tag>
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>		
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>REVOKE </tag>
 			<endTag>
@@ -37,55 +31,55 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
+			</endTag>
 		</startTag>
 		<startTag>
 			<tag>CREATE PACKAGE</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>							
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE OR REPLACE PACKAGE</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
+			</endTag>
 		</startTag>
 		<startTag>
 			<tag>CREATE FUNCTION</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>							
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE OR REPLACE FUNCTION</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>		
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE PROCEDURE</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>							
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE OR REPLACE PROCEDURE</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>		
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE TRIGGER</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>							
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE OR REPLACE TRIGGER</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
+			</endTag>
 		</startTag>
 		<startTag>
 			<tag>CREATE OR REPLACE VIEW</tag>
@@ -94,7 +88,7 @@
 			</endTag>
 			<endTag>
 				<tag>;</tag>
-			</endTag>			
+			</endTag>
 		</startTag>
 		<startTag>
 			<tag>CREATE VIEW</tag>
@@ -103,14 +97,32 @@
 			</endTag>
 			<endTag>
 				<tag>;</tag>
-			</endTag>			
-		</startTag>			
+			</endTag>
+		</startTag>
+		<startTag>
+			<tag>CREATE OR REPLACE AND COMPILE JAVA SOURCE NAMED</tag>
+			<endTag>
+				<tag>/</tag>
+			</endTag>
+		</startTag>
+		<startTag>
+			<tag>CREATE OR REPLACE JAVA SOURCE NAMED</tag>
+			<endTag>
+				<tag>/</tag>
+			</endTag>
+		</startTag>
+		<startTag>
+			<tag>CREATE OR REPLACE AND RESOLVE JAVA SOURCE NAMED</tag>
+			<endTag>
+				<tag>/</tag>
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE OR REPLACE</tag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>			
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>CREATE </tag>
 			<endTag>
@@ -118,8 +130,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>					
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>DROP </tag>
 			<endTag>
@@ -127,8 +139,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>	
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>TRUNCATE </tag>
 			<endTag>
@@ -136,8 +148,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>			
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>ALTER </tag>
 			<endTag>
@@ -145,8 +157,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>		
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>INSERT </tag>
 			<endTag>
@@ -154,8 +166,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>	
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>UPDATE </tag>
 			<endTag>
@@ -163,8 +175,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>	
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>DELETE </tag>
 			<endTag>
@@ -172,7 +184,7 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
+			</endTag>
 		</startTag>
 		<startTag>
 			<tag>COMMIT</tag>
@@ -181,8 +193,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>									
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>SELECT </tag>
 			<endTag>
@@ -190,8 +202,8 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>									
+			</endTag>
+		</startTag>
 		<startTag>
 			<tag>KILL </tag>
 			<endTag>
@@ -199,16 +211,16 @@
 			</endTag>
 			<endTag>
 				<tag>/</tag>
-			</endTag>			
-		</startTag>		
+			</endTag>
+		</startTag>
 		<startTag>
-		    <tag>COMMENT ON </tag>
-		    <endTag>
-		        <tag>;</tag>
-		    </endTag>
-		     <endTag>
-		        <tag>/</tag>
-		    </endTag>
+			<tag>COMMENT ON </tag>
+			<endTag>
+				<tag>;</tag>
+			</endTag>
+			<endTag>
+				<tag>/</tag>
+			</endTag>
 		</startTag>
 	</parserDefinitionDocument>
 </parserSchema>
