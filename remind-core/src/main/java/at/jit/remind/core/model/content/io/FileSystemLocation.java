@@ -218,13 +218,13 @@ public class FileSystemLocation implements Source<File>, Target<File, File>
 	@Override
 	public int compareTo(Source<?> o)
 	{
-		// TODO Auto-generated method stub
+		// there is no revision for file system location, so the file is always the same.
 		return 0;
 	}
 
 	@Override
 	public boolean isAlmostEqual(Source<?> that)
 	{
-		return this.getDetails().equals(that.getDetails());
+		return this.equals(that);
 	}
 }

@@ -55,6 +55,13 @@ public class ChangeFilterTest
 		assertSame("Second change from input file with index 1 is not any more in result file", result.getInstallationBlock().get(0).getInstallationBlock()
 				.get(0).getChange().size(), 0);
 	}
+	
+	//TODO Gleiches Target, verschiedene Sourcen.
+	@Test
+	public void testChangeWithDifferent() throws IOException, RemindModelException
+	{
+		
+	}
 
 	@Test
 	public void testSortWithManyChanges() throws IOException, RemindModelException

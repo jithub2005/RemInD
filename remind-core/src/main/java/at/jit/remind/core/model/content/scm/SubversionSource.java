@@ -235,6 +235,11 @@ public class SubversionSource implements Validate, Source<File>
 	@Override
 	public boolean isAlmostEqual(Source<?> o)
 	{
+		if (!(o instanceof SubversionSource))
+		{
+			return false;
+		}
+			
 		SubversionSource that = (SubversionSource) o;
 
 		return this.path.equals(that.path) && this.repositoryUrl.equals(that.repositoryUrl);
