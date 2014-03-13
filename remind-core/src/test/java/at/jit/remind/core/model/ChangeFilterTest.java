@@ -56,11 +56,15 @@ public class ChangeFilterTest
 				.get(0).getChange().size(), 0);
 	}
 	
-	//TODO Gleiches Target, verschiedene Sourcen.
 	@Test
-	public void testChangeWithDifferent() throws IOException, RemindModelException
+	public void testChangeWithDifferentSourcesAndSameTargetDoesntEndUpInClassCaseException() throws IOException, RemindModelException
 	{
+		String xmlData = FileUtils.readFileToString(FileUtils.toFile(InstallationDocumentModelTest.class.getResource("/model/ChangeFilterMoreSourcesSameTargetTest.xml")));
+		UserInput userInput = new UserInput(1, 2, Environment.DEV.value());
+		new ChangeFilter().on(XmlHelper.parseDocumentElement(xmlData)).with(userInput).apply();
 		
+		//should not end in a ClassCastException
+		assertTrue(true);
 	}
 
 	@Test
