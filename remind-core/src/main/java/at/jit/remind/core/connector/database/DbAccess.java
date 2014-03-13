@@ -88,6 +88,7 @@ public class DbAccess
 		try
 		{
 			sqlStatement = con.createStatement();
+			sqlStatement.setEscapeProcessing(false); //This is needed for statements that contain Java code. Otherwise an "non supported SQL92 token" error occurs.
 			RemindContext.getInstance().getMessageHandler().addMessage("Executing statement: " + stmt);
 			sqlStatement.execute(stmt);
 			RemindContext.getInstance().getMessageHandler().addMessage("Done.");
