@@ -20,7 +20,7 @@ import at.jit.remind.core.model.content.Target;
 
 public class ExecutorTarget implements Target<File, File>
 {
-	public static final String charset = "UTF-8";
+//	public static final String charset = "UTF-8";
 
 	private String environment;
 

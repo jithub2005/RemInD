@@ -1,0 +1,1 @@
+insert into MP_TEST_TABLE (NAME, DEALER_CODE_C) values ('ISO8859 Umlaute ִÜײהצü', 0);

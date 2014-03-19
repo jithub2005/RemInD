@@ -13,6 +13,7 @@ import at.jit.remind.core.connector.database.DbAccess;
 import at.jit.remind.core.context.RemindContext;
 import at.jit.remind.core.context.messaging.MessageHandler.MessageLevel;
 import at.jit.remind.core.exception.MessageHandlerException;
+import at.jit.remind.core.util.CharsetDetector;
 
 public class SqlStatementList
 {
@@ -20,6 +21,7 @@ public class SqlStatementList
 
 	private List<AtomicSqlStatement> statementList = new ArrayList<AtomicSqlStatement>();
 	private SqlParser sqlParser;
+	private CharsetDetector charsetDetector = new CharsetDetector();
 
 	public SqlStatementList(File file) throws MessageHandlerException
 	{
@@ -78,7 +80,9 @@ public class SqlStatementList
 
 	public BufferedReader getFileReader() throws IOException
 	{
-		return new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+		String charset = charsetDetector.detectCharset(file);
+		
+		return new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
 	}
 
 	protected File getFile()
