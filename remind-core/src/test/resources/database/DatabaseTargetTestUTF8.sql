@@ -1,0 +1,1 @@
+insert into MP_TEST_TABLE (NAME, DEALER_CODE_C) values ('UTF8 Umlaute ÄÜÖäöü', 0);

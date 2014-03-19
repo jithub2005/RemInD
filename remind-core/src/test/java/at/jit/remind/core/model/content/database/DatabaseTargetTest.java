@@ -163,6 +163,31 @@ insert into table erroneusTestTable values(1, 'asdf');
 			fail(e.getMessage());
 		}		
 	}
+	
+	@Ignore
+	@Test
+	public void canDeployUmlauteWithISO8859File() throws IOException
+	{
+		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
+		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "DatabaseTargetTestISO8859.sql";
+		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class
+				.getResource("/database/DatabaseTargetTestISO8859.sql")));
+
+		generateSourceFile(sourcePath, sqlFileAsString);
+		FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+
+		try
+		{
+			SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+			databaseTarget.deploy(list);
+
+			assertTrue(true);
+		}
+		catch (MessageHandlerException e)
+		{
+			fail(e.getMessage());
+		}		
+	}
 
 	@Ignore
 	@Test

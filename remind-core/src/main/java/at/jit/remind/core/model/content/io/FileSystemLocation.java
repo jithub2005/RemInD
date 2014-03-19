@@ -19,13 +19,15 @@ import at.jit.remind.core.exception.MessageHandlerException;
 import at.jit.remind.core.model.RemindModelFeedback;
 import at.jit.remind.core.model.content.Source;
 import at.jit.remind.core.model.content.Target;
+import at.jit.remind.core.util.CharsetDetector;
 
 public class FileSystemLocation implements Source<File>, Target<File, File>
 {
-	public static final String charset = "UTF-8";
+//	public static final String charset = "UTF-8";
 
 	private File file;
 	private boolean isSource = false;
+	private CharsetDetector charsetDetector = new CharsetDetector();
 
 	private Set<String> deploymentDetails = new LinkedHashSet<String>();
 
@@ -130,8 +132,11 @@ public class FileSystemLocation implements Source<File>, Target<File, File>
 		{
 			BufferedReader reader = null;
 			BufferedWriter out = null;
+			
 			try
 			{
+				String charset = charsetDetector.detectCharset(content);
+				
 				reader = new BufferedReader(new InputStreamReader(new FileInputStream(content), charset));
 				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
 
