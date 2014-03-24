@@ -23,8 +23,6 @@ import at.jit.remind.core.util.CharsetDetector;
 
 public class FileSystemLocation implements Source<File>, Target<File, File>
 {
-//	public static final String charset = "UTF-8";
-
 	private File file;
 	private boolean isSource = false;
 	private CharsetDetector charsetDetector = new CharsetDetector();

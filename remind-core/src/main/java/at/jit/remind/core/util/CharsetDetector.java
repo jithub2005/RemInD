@@ -11,10 +11,12 @@ import java.util.logging.SimpleFormatter;
 import org.mozilla.universalchardet.UniversalDetector;
 
 /*
- * Detects character set of read file. If character set is not detected as UTF-8, it will be set to default ISO-8859-1
+ * Detects character set of read file. If character set is not detected, fallback is set to UTF-8
  */
 public class CharsetDetector
 {
+	private static final String FallbackEncoding = "UTF-8";
+	
 	private UniversalDetector universalDetector;
 	private Logger logger = Logger.getLogger("CharsetDetectorLogger");
 	private ConsoleHandler handler = new ConsoleHandler();
@@ -26,9 +28,6 @@ public class CharsetDetector
 		handler.setFormatter(new SimpleFormatter());
 		logger.addHandler(handler);
 	}
-
-	private static final String DefaultEncoding = "UTF-8";
-	private static final String FallBackEncoding = "ISO-8859-1";
 
 	public String detectCharset(File file) throws IOException
 	{
@@ -52,17 +51,12 @@ public class CharsetDetector
 		}
 
 		String encoding = universalDetector.getDetectedCharset();
-//		logger.fine(String.format("Charset detected as %s", encoding));
 		
-		if (DefaultEncoding.equals(encoding))
+		if (encoding == null)
 		{
-//			logger.warning(String.format("Set default encoding %s", DefaultEncoding));
-			encoding = DefaultEncoding;
-		}
-		else
-		{
-//			logger.fine(String.format("Set fallback encoding %s", FallBackEncoding));
-			encoding = FallBackEncoding;	
+			logger.warning(String.format("Set default encoding %s", FallbackEncoding));
+			
+			encoding = FallbackEncoding;
 		}
 
 		universalDetector.reset();

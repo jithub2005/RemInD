@@ -83,7 +83,7 @@ public class SubversionSource implements Validate, Source<File>
 		try
 		{
 			tmpFile = File.createTempFile(getClass().getSimpleName(), ".tmp");
-			tmpFile.deleteOnExit();
+			tmpFile.deleteOnExit(); //Files will only be deleted at VM shutdown.
 		}
 		catch (IOException e)
 		{
