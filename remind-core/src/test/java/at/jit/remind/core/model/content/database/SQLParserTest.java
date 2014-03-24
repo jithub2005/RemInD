@@ -136,6 +136,15 @@ public class SQLParserTest
 		
 		assertSame("Expected statement count of SQLParserTestTableComments.sql is 6", 6, statementList.size());
 	}
+	
+	@Test
+	public void canHandleSingleLineCommentsAtFirstLine() throws MessageHandlerException, IOException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestSingleCommentFirstLine.sql"));
+		sqlParser.parse(statementList);
+		
+		assertSame("Expected statement count of SQLParserTestSingleCommentFirstLine.sql is 2", 2, statementList.size());
+	}
 
 	@Test
 	public void canHandleCommentsInsideFunctionsInSqlFileProperly() throws IOException, MessageHandlerException
@@ -162,7 +171,7 @@ public class SQLParserTest
 		sqlParser.parse(statementList);
 		
 		assertSame("Expected statement count of SQLParserTestSemicolonInNextLine.sql is 2", 2, statementList.size());	
-	}
+	}	
 	
 	private File setUpSqlFile(String fileName) throws IOException
 	{
