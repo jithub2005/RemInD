@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.input.BOMInputStream;
+
 import at.jit.remind.core.connector.database.DbAccess;
 import at.jit.remind.core.context.RemindContext;
 import at.jit.remind.core.context.messaging.MessageHandler.MessageLevel;
@@ -81,8 +83,8 @@ public class SqlStatementList
 	public BufferedReader getFileReader() throws IOException
 	{
 		String charset = charsetDetector.detectCharset(file);
-		
-		return new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+
+		return new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(file)), charset));
 	}
 
 	protected File getFile()
