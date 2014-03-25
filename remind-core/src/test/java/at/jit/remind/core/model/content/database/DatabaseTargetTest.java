@@ -141,6 +141,31 @@ insert into table erroneusTestTable values(1, 'asdf');
 	
 	@Ignore
 	@Test
+	public void canDeployWithSingleCommentAtFirstRow() throws IOException
+	{
+		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
+		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "SQLParserTestSingleCommentFirstLine.sql";
+		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class
+				.getResource("/database/SQLParserTestSingleCommentFirstLine.sql")));
+
+		generateSourceFile(sourcePath, sqlFileAsString);
+		FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+
+		try
+		{
+			SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+			databaseTarget.deploy(list);
+
+			assertTrue(true);
+		}
+		catch (MessageHandlerException e)
+		{
+			fail(e.getMessage());
+		}			
+	}
+	
+	@Ignore
+	@Test
 	public void canDeployJavaCode() throws IOException
 	{
 		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
@@ -166,7 +191,7 @@ insert into table erroneusTestTable values(1, 'asdf');
 	
 	@Ignore
 	@Test
-	public void canDeployUmlauteWithISO8859File() throws IOException
+	public void canDeployUmlauteWithDIfferentEncodings() throws IOException
 	{
 		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
 		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "DatabaseTargetTestISO8859.sql";
@@ -288,6 +313,31 @@ insert into table erroneusTestTable values(1, 'asdf');
 		{
 			fail(e.getMessage());
 		}			
+	}
+	
+	@Ignore
+	@Test
+	public void invalidCharacterTest() throws IOException
+	{
+		DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
+		String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "RemInD_create_table4_utf8_mit_bom.sql";
+		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class
+				.getResource("/database/RemInD_create_table4_utf8_mit_bom.sql")));
+
+		generateSourceFile(sourcePath, sqlFileAsString);
+		FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+
+		try
+		{
+			SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+			databaseTarget.deploy(list);
+
+			assertTrue(true);
+		}
+		catch (MessageHandlerException e)
+		{
+			fail(e.getMessage());
+		}		
 	}
 
 	@Test(expected = MessageHandlerException.class)

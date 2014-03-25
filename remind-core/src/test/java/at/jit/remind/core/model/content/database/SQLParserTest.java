@@ -171,7 +171,7 @@ public class SQLParserTest
 		sqlParser.parse(statementList);
 		
 		assertSame("Expected statement count of SQLParserTestSemicolonInNextLine.sql is 2", 2, statementList.size());	
-	}	
+	}
 	
 	private File setUpSqlFile(String fileName) throws IOException
 	{

@@ -54,7 +54,7 @@ public class CharsetDetector
 		
 		if (encoding == null)
 		{
-			logger.warning(String.format("Set default encoding %s", FallbackEncoding));
+//			logger.warning(String.format("Set default encoding %s", FallbackEncoding));
 			
 			encoding = FallbackEncoding;
 		}
