@@ -173,6 +173,15 @@ public class SQLParserTest
 		assertSame("Expected statement count of SQLParserTestSemicolonInNextLine.sql is 2", 2, statementList.size());	
 	}
 	
+	@Test
+	public void canHandleMultiLineComments() throws MessageHandlerException, IOException
+	{
+		SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestMultiLineInsert.sql"));
+		sqlParser.parse(statementList);
+		
+		assertSame("Expected statement count of SQLParserTestMultiLineInsert.sql is 6", 6, statementList.size());			
+	}
+		
 	private File setUpSqlFile(String fileName) throws IOException
 	{
 		String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class.getResource("/database/" + fileName)));

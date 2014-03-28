@@ -112,7 +112,7 @@ public class SqlParser
 					run = true;
 
 					StartTag listElement = iter.next();
-					String startTag = listElement.getTag().toLowerCase();
+					String startTag = listElement.getTag().toLowerCase().trim();
 					List<EndTag> endTagList = listElement.getEndTag();
 
 					if (matchingLine.startsWith(startTag) || matchingLine.endsWith(startTag))
@@ -124,7 +124,7 @@ public class SqlParser
 							{
 								for (EndTag endElement : endTagList)
 								{
-									String endTag = endElement.getTag();
+									String endTag = endElement.getTag().trim();
 
 									if (isCommentLineBegin(matchingLine, endTag))
 									{
