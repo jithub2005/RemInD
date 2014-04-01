@@ -48,7 +48,7 @@ public class SqlParser
 		}
 	}
 
-	public void parse(SqlStatementList statementList) throws MessageHandlerException
+	public void parse(SqlStatementList statementList) throws MessageHandlerException //NOSONAR Splitting the algorithm would not be handy
 	{
 		boolean run = true;
 		boolean statementFinished = false;
@@ -63,7 +63,7 @@ public class SqlParser
 			boolean isInCommentModeOutsideStatement = false;
 			StringBuilder commentBuilder = new StringBuilder();
 
-			while ((originalLine = reader.readLine()) != null)
+			while ((originalLine = reader.readLine()) != null) //NOSONAR Assignment in operand is valid behaviour
 			{
 				String tempLine = originalLine;
 				String matchingLine = tempLine.toLowerCase(Locale.ENGLISH).trim();
@@ -221,32 +221,27 @@ public class SqlParser
 
 	private boolean isCommentLineBegin(String compareLine, String tag)
 	{
-		compareLine = compareLine.trim();
+		String tmpLine = compareLine.trim();
 
 		// Java commands consist of one whole command including java code and java comments, so we have to exclude java comments from recognition.
 		// Otherwise the parser would think the statements ends here.
-		if (compareLine.startsWith(tag) && 
-				!(compareLine.startsWith(javaComment) || compareLine.startsWith(commentStartTag) || compareLine.endsWith(commentBlankEnd) || compareLine.endsWith(commentEnd)))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return (tmpLine.startsWith(tag) && 
+				!(tmpLine.startsWith(javaComment) || 
+				        tmpLine.startsWith(commentStartTag) || 
+				        tmpLine.endsWith(commentBlankEnd) || 
+				        tmpLine.endsWith(commentEnd))); //NOSONAR we need 4 boolean checks
+
 	}
 
 	private boolean isCommentLineEnd(String compareLine, String tag)
 	{
-		if (compareLine.endsWith(tag) && 
-				!(compareLine.startsWith(javaComment) || compareLine.startsWith(commentStartTag) || compareLine.endsWith(commentBlankEnd) || compareLine.endsWith(commentEnd) || compareLine.startsWith(comment)))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return (compareLine.endsWith(tag) && 
+				!(compareLine.startsWith(javaComment) || 
+				        compareLine.startsWith(commentStartTag) || 
+				        compareLine.endsWith(commentBlankEnd) || 
+				        compareLine.endsWith(commentEnd) || 
+				        compareLine.startsWith(comment))
+			 ); //NOSONAR we need 5 boolean checks
 	}
 
 	private boolean isLineStartingComment(String compareLine)

@@ -32,7 +32,7 @@ public class CharsetDetectorTest
 		
 		String charset = charsetDetector.detectCharset(file);
 		
-		assertSame(FallbackEncoding, charset);
+		assertSame("Fallback UTF-8 must be set, because ISO8859-6 is not recognized due to few characters in file.", FallbackEncoding, charset);
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class CharsetDetectorTest
 		
 		String charset = charsetDetector.detectCharset(file);
 		
-		assertSame(FallbackEncoding, charset);
+		assertSame("Charset UTF-8 must be recognized.", FallbackEncoding, charset);
 	}
 	
 	@Test
@@ -52,17 +52,7 @@ public class CharsetDetectorTest
 		
 		String charset = charsetDetector.detectCharset(file);
 		
-		assertSame("WINDOWS-1255", charset);
-	}
-	
-	@Test
-	public void charsetKOIFallbackToUTF8() throws IOException
-	{
-		File file = FileUtils.toFile(DatabaseTargetTest.class.getResource("/charset/KOI8R.sql"));
-		
-		String charset = charsetDetector.detectCharset(file);
-		
-		assertSame(FallbackEncoding, charset);
+		assertSame("WINDOWS-1255 must be recognized.", "WINDOWS-1255", charset);
 	}
 	
 	@Test
@@ -72,6 +62,6 @@ public class CharsetDetectorTest
 		
 		String charset = charsetDetector.detectCharset(file);
 		
-		assertSame("WINDOWS-1252", charset);	
+		assertSame("WINDOWS-1252 must be recognized.", "WINDOWS-1252", charset);	
 	}
 }

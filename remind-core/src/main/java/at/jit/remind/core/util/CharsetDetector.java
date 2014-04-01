@@ -3,10 +3,6 @@ package at.jit.remind.core.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import org.mozilla.universalchardet.UniversalDetector;
 
@@ -15,32 +11,21 @@ import org.mozilla.universalchardet.UniversalDetector;
  */
 public class CharsetDetector
 {
-	private static final String FallbackEncoding = "UTF-8";
-	
-	private UniversalDetector universalDetector;
-	private Logger logger = Logger.getLogger("CharsetDetectorLogger");
-	private ConsoleHandler handler = new ConsoleHandler();
-	
-	public CharsetDetector()
-	{
-		logger.setLevel(Level.ALL);
-		handler.setLevel(Level.ALL);
-		handler.setFormatter(new SimpleFormatter());
-		logger.addHandler(handler);
-	}
+	private static final int byteBufferSize = 4096;
+    private static final String fallbackEncoding = "UTF-8";
 
 	public String detectCharset(File file) throws IOException
 	{
-		byte[] buf = new byte[4096];
+		byte[] buf = new byte[byteBufferSize];
 
 		FileInputStream fis = new FileInputStream(file);
-		universalDetector = new UniversalDetector(null);
+		UniversalDetector universalDetector = new UniversalDetector(null);
 
 		int nread;
 		try 
 		{
-			while ((nread = fis.read(buf)) > 0 && !universalDetector.isDone())
-			{
+			while ((nread = fis.read(buf)) > 0 && !universalDetector.isDone())  //NOSONAR
+			{          
 				universalDetector.handleData(buf, 0, nread);
 			}
 		}
@@ -54,9 +39,7 @@ public class CharsetDetector
 		
 		if (encoding == null)
 		{
-//			logger.warning(String.format("Set default encoding %s", FallbackEncoding));
-			
-			encoding = FallbackEncoding;
+			encoding = fallbackEncoding;
 		}
 
 		universalDetector.reset();
