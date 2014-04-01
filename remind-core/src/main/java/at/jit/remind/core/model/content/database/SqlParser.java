@@ -225,23 +225,23 @@ public class SqlParser
 
 		// Java commands consist of one whole command including java code and java comments, so we have to exclude java comments from recognition.
 		// Otherwise the parser would think the statements ends here.
-		return (tmpLine.startsWith(tag) && 
+		return (tmpLine.startsWith(tag) && //NOSONAR we need 4 boolean checks
 				!(tmpLine.startsWith(javaComment) || 
 				        tmpLine.startsWith(commentStartTag) || 
 				        tmpLine.endsWith(commentBlankEnd) || 
-				        tmpLine.endsWith(commentEnd))); //NOSONAR we need 4 boolean checks
+				        tmpLine.endsWith(commentEnd))); 
 
 	}
 
 	private boolean isCommentLineEnd(String compareLine, String tag)
 	{
-		return (compareLine.endsWith(tag) && 
+		return (compareLine.endsWith(tag) &&  //NOSONAR we need 5 boolean checks
 				!(compareLine.startsWith(javaComment) || 
 				        compareLine.startsWith(commentStartTag) || 
 				        compareLine.endsWith(commentBlankEnd) || 
 				        compareLine.endsWith(commentEnd) || 
 				        compareLine.startsWith(comment))
-			 ); //NOSONAR we need 5 boolean checks
+			 );
 	}
 
 	private boolean isLineStartingComment(String compareLine)
