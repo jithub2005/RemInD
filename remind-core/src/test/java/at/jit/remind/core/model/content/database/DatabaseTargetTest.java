@@ -354,6 +354,31 @@ public class DatabaseTargetTest
             fail(e.getMessage());
         }
     }
+    
+    @Ignore
+    @Test
+    public void commentWithinStatementTest() throws IOException
+    {
+        DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
+        String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "SQLParserTestMultilineCommentWithinStatement.sql";
+        String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class.getResource("/database/SQLParserTestMultilineCommentWithinStatement.sql")));
+
+        generateSourceFile(sourcePath, sqlFileAsString);
+        FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+
+        try
+        {
+            SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+            databaseTarget.deploy(list);
+
+            // NOSONAR
+            // No fail means test success
+        }
+        catch (MessageHandlerException e)
+        {
+            fail(e.getMessage());
+        }      
+    }
 
     @Test(expected = MessageHandlerException.class)
     public void canHandleValidationError() throws MessageHandlerException

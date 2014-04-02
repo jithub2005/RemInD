@@ -233,6 +233,38 @@ public class SQLParserTest
 
         assertSame("It's not enough to recognize the comment as atomic statement. The onlyComment parameter must be true too.", true, onlyComment);
     }
+    
+    @Test
+    public void canHandleSingleLineCommentsWithinSqlStatement() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestSingleCommentWithinStatement.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(2);
+
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestMultiLineInsert.sql is 5", 5, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a comment within a sql statement.", false, onlyComment);
+    }
+    
+    @Test
+    public void canHandleMultiLineCommentsWithinSqlStatement() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestMultilineCommentWithinStatement.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(2);
+
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestMultiLineInsert.sql is 5", 5, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a comment within a sql statement.", false, onlyComment);
+    }
 
     private File setUpSqlFile(String fileName) throws IOException
     {
