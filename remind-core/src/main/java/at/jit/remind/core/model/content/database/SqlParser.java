@@ -216,7 +216,19 @@ public class SqlParser
 
 	private boolean isSingleLineCommentOutsideStatement(String compareLine)
 	{
-		return compareLine.trim().startsWith(comment);
+	    String tmpLine = compareLine.trim();
+	    //single line comment 
+	    if (tmpLine.startsWith(comment))
+	    {
+	        return true;
+	    }
+	    //multi line comment written as single line comment.
+	    if (tmpLine.startsWith(commentStartTag) && (tmpLine.endsWith(commentEnd) || tmpLine.endsWith(commentBlankEnd)))
+	    {
+	        return true;
+	    }
+	    
+	    return false;
 	}
 
 	private boolean isCommentLineBegin(String compareLine, String tag)

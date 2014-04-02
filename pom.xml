@@ -21,45 +21,36 @@
 	<properties>
 		<java.source.version>1.6</java.source.version>
 		<java.target.version>1.6</java.target.version>
-
 		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
 		<maven-install-plugin.version>2.4</maven-install-plugin.version>
 		<maven-resources-plugin.version>2.6</maven-resources-plugin.version>
 		<maven-surefire-plugin.version>2.15</maven-surefire-plugin.version>
-
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
 		<maven-war-plugin.version>2.3</maven-war-plugin.version>
-
 		<maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
 		<maven-release-plugin.version>2.3.2</maven-release-plugin.version>
 		<maven-scm-plugin.version>1.8.1</maven-scm-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
-
 		<jboss-as-maven-plugin.version>7.5.Final</jboss-as-maven-plugin.version>
 
 		<!-- remind-core dependency versions -->
 		<svnkit.version>1.7.8</svnkit.version>
-
 		<ojdbc6.version>11.2.0.2.0</ojdbc6.version>
 		<mysql-connector-java.version>5.1.18</mysql-connector-java.version>
 		<postgresql-connector.version>9.1-901.jdbc4</postgresql-connector.version>
-
 		<velocity.version>1.7</velocity.version>
 		<itext.version>4.2.0</itext.version>
-
 		<junit.version>4.11</junit.version>
 		<wagon-file.version>2.4</wagon-file.version>
 		<wagon-ssh.version>2.4</wagon-ssh.version>
-
 		<hsqldb.version>1.8.0.10</hsqldb.version>
-
 		<jersey-client.version>1.18</jersey-client.version>
-
 		<commons-codec.version>1.6</commons-codec.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.4</commons-io.version>
+		<powermock.version>1.5.4</powermock.version>
 
 		<!-- remind-web dependency versions -->
 		<jboss-javaee-6.0.version>3.0.1.Final</jboss-javaee-6.0.version>
@@ -188,13 +179,26 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4</artifactId>
+				<version>${powermock.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<version>${powermock.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
 				<artifactId>arquillian-bom</artifactId>
 				<version>${arquillian-bom.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 
