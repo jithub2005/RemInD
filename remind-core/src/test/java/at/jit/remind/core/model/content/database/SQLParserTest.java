@@ -50,6 +50,15 @@ public class SQLParserTest
     {
         sqlParser.parse(new SqlStatementList(new File("foobar.sql")));
     }
+    
+    @Test
+    public void canHandleSimpleStatements() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestEndTagBehaviour.sql"));
+        sqlParser.parse(sqlStatementList);
+
+        assertSame("Expected statement count of SQLParserTestEndTagBehaviour.sql is 10", 10, sqlStatementList.size());       
+    }
 
     @Test
     public void canHandleCommentsInSqlFileProperly() throws IOException, MessageHandlerException
@@ -75,7 +84,7 @@ public class SQLParserTest
         SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestCreateOrReplaceAndResolve.sql"));
         sqlParser.parse(statementList);
 
-        assertSame("Expected statement count of SQLParserTest2OriginalOracle.sql is 11", 11, statementList.size());
+        assertSame("Expected statement count of SQLParserTestCreateOrReplaceAndResolve.sql is 11", 11, statementList.size());
     }
 
     @Test
@@ -84,7 +93,7 @@ public class SQLParserTest
         SqlStatementList statementList = new SqlStatementList(setUpSqlFile("SQLParserTestJavaStatementWithJavadoc.sql"));
         sqlParser.parse(statementList);
 
-        assertSame("Expected statement count of SQLParserTest2OriginalOracle.sql is 2", 2, statementList.size());
+        assertSame("Expected statement count of SQLParserTestJavaStatementWithJavadoc.sql is 2", 2, statementList.size());
     }
 
     @Test
@@ -264,6 +273,102 @@ public class SQLParserTest
 
         assertSame("Expected statement count of SQLParserTestMultiLineInsert.sql is 5", 5, sqlStatementList.size());
         assertSame("onlyComment must not be true, because it's a comment within a sql statement.", false, onlyComment);
+    }
+    
+    @Test
+    public void canHandleStatementWithSemicolonInNextLineInPackage() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestSemicolonNextLinePackage.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestSemicolonNextLinePackage.sql is 2", 2, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
+    }
+    
+    @Test
+    public void canHandleStatementWithSemicolonInNextLineInProcedure() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestSemicolonNextLineProcedure.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+        
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestSemicolonNextLineProcedure.sql is 2", 2, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
+    }
+    
+    @Test
+    public void canHandleCommentWithinPlSql() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestCommentInPlSql.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+        
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestCommentInPlSql.sql is 2", 2, sqlStatementList.size());      
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
+    }
+    
+    @Test
+    public void canHandleStatementWithSemicolonInNextLineWithinPlSql() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestSemicolonNextLinePlSql.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+        
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestCommentInPlSql.sql is 2", 2, sqlStatementList.size());  
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
+    }
+    
+    @Test
+    public void canHandleStatementWithSemicolonInSameLineWithinPlSql() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestSemicolonSameLineWithinPlSql.sql"));
+        sqlParser.parse(sqlStatementList);
+
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+        
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestSemicolonSameLineWithinPlSql.sql is 2", 2, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
+    }
+    
+    @Test
+    public void canHandleNestedBlocksWithSemicolonsInNextLineAndComments() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestNestedBlocksSemicolonsComments.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+        
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestNestedBlocksSemicolonsComments.sql is 2", 2, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
     }
 
     private File setUpSqlFile(String fileName) throws IOException

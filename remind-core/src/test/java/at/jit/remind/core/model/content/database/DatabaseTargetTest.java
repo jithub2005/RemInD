@@ -386,6 +386,32 @@ public class DatabaseTargetTest
         DatabaseTarget wrongDatabaseTarget = new DatabaseTarget(environment, sid, "foo");
         wrongDatabaseTarget.validate();
     }
+    
+    //This test is here to execute any sql file you need.
+    @Ignore
+    @Test
+    public void exexcuteCurrentSqlScript() throws IOException
+    {
+        DatabaseTarget databaseTarget = new DatabaseTarget("QM", "ORACLE-QM", "");
+        String sourcePath = System.getProperty("java.io.tmpdir") + "/" + "SQLParserTestEndTagBehaviour.sql";
+        String sqlFileAsString = FileUtils.readFileToString(FileUtils.toFile(DatabaseTargetTest.class.getResource("/database/SQLParserTestEndTagBehaviour.sql")));
+
+        generateSourceFile(sourcePath, sqlFileAsString);
+        FileSystemLocation fileSystemLocation = generateFileSystemLocation(sourcePath);
+
+        try
+        {
+            SqlStatementList list = databaseTarget.convert(fileSystemLocation);
+            databaseTarget.deploy(list);
+
+            // NOSONAR
+            // No fail means test success
+        }
+        catch (MessageHandlerException e)
+        {
+            fail(e.getMessage());
+        }              
+    }
 
     private void generateSourceFile(String sourcePath, String content) throws IOException
     {

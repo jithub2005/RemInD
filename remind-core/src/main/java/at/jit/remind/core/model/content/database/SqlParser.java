@@ -156,9 +156,9 @@ public class SqlParser
 							{
 								source.append(originalLine + " " + "\n");
 
-								String lineBuffer = reader.readLine();
+								String lineBuffer = reader.readLine().trim();
 
-								if (lineBuffer != null && !";".equals(lineBuffer.trim()))
+								if (lineBuffer != null)
 								{
 									originalLine = lineBuffer;
 									matchingLine = lineBuffer.toLowerCase(Locale.ENGLISH).trim();
@@ -184,12 +184,19 @@ public class SqlParser
 				}
 				if (!statementFinished)
 				{
-					AtomicSqlStatement atomicSqlStatement = new AtomicSqlStatement(statementList, originalLine);
-					atomicSqlStatement.setStatementIndexFrom(index + 1);
+				    //In Oracle, an atomic statement must not consist of a semicolon itself. 
+				    //That's why a statement which consist of one semicolon must not be added to the statementList.
+				    //The previous statement which is terminated by this semicolon is already an atomic statement, so
+				    //we don't lose any sql code.
+				    if (!";".equals(originalLine))
+				    {
+	                    AtomicSqlStatement atomicSqlStatement = new AtomicSqlStatement(statementList, originalLine);
+	                    atomicSqlStatement.setStatementIndexFrom(index + 1);
 
-					index += atomicSqlStatement.getLength();
+	                    index += atomicSqlStatement.getLength();
 
-					atomicSqlStatement.setStatementIndexTo(index);
+	                    atomicSqlStatement.setStatementIndexTo(index);
+				    }
 				}
 			}
 		}
@@ -214,7 +221,7 @@ public class SqlParser
 		}
 	}
 
-	private boolean isSingleLineCommentOutsideStatement(String compareLine)
+    private boolean isSingleLineCommentOutsideStatement(String compareLine)
 	{
 	    String tmpLine = compareLine.trim();
 	    //single line comment 
@@ -237,23 +244,23 @@ public class SqlParser
 
 		// Java commands consist of one whole command including java code and java comments, so we have to exclude java comments from recognition.
 		// Otherwise the parser would think the statements ends here.
+
 		return (tmpLine.startsWith(tag) && //NOSONAR we need 4 boolean checks
-				!(tmpLine.startsWith(javaComment) || 
+			  !(tmpLine.startsWith(javaComment) || 
 				        tmpLine.startsWith(commentStartTag) || 
 				        tmpLine.endsWith(commentBlankEnd) || 
-				        tmpLine.endsWith(commentEnd))); 
+				        tmpLine.endsWith(commentEnd)));
 
 	}
 
 	private boolean isCommentLineEnd(String compareLine, String tag)
 	{
 		return (compareLine.endsWith(tag) &&  //NOSONAR we need 5 boolean checks
-				!(compareLine.startsWith(javaComment) || 
+		        !(compareLine.startsWith(javaComment) || 
 				        compareLine.startsWith(commentStartTag) || 
 				        compareLine.endsWith(commentBlankEnd) || 
 				        compareLine.endsWith(commentEnd) || 
-				        compareLine.startsWith(comment))
-			 );
+				        compareLine.startsWith(comment)));
 	}
 
 	private boolean isLineStartingComment(String compareLine)
