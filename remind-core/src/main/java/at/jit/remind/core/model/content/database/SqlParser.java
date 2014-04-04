@@ -156,11 +156,11 @@ public class SqlParser
 							{
 								source.append(originalLine + " " + "\n");
 
-								String lineBuffer = reader.readLine().trim();
+								String lineBuffer = reader.readLine();
 
 								if (lineBuffer != null)
 								{
-									originalLine = lineBuffer;
+									originalLine = lineBuffer.trim();
 									matchingLine = lineBuffer.toLowerCase(Locale.ENGLISH).trim();
 								}
 								else
@@ -182,21 +182,18 @@ public class SqlParser
 						break;
 					}
 				}
-				if (!statementFinished)
+                //(Info for the 2nd condition) In Oracle, an atomic statement must not consist of a semicolon itself. 
+                //That's why a statement which consist of one semicolon must not be added to the statementList.
+                //The previous statement which is terminated by this semicolon is already an atomic statement, so
+                //we don't lose any sql code.
+				if (!statementFinished && !";".equals(originalLine))
 				{
-				    //In Oracle, an atomic statement must not consist of a semicolon itself. 
-				    //That's why a statement which consist of one semicolon must not be added to the statementList.
-				    //The previous statement which is terminated by this semicolon is already an atomic statement, so
-				    //we don't lose any sql code.
-				    if (!";".equals(originalLine))
-				    {
-	                    AtomicSqlStatement atomicSqlStatement = new AtomicSqlStatement(statementList, originalLine);
-	                    atomicSqlStatement.setStatementIndexFrom(index + 1);
+                    AtomicSqlStatement atomicSqlStatement = new AtomicSqlStatement(statementList, originalLine);
+                    atomicSqlStatement.setStatementIndexFrom(index + 1);
 
-	                    index += atomicSqlStatement.getLength();
+                    index += atomicSqlStatement.getLength();
 
-	                    atomicSqlStatement.setStatementIndexTo(index);
-				    }
+                    atomicSqlStatement.setStatementIndexTo(index);
 				}
 			}
 		}
