@@ -1,14 +1,18 @@
 package at.jit.remind.core.model.content.database;
 
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -370,6 +374,59 @@ public class SQLParserTest
         assertSame("Expected statement count of SQLParserTestNestedBlocksSemicolonsComments.sql is 2", 2, sqlStatementList.size());
         assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
     }
+
+	@Test
+	public void canHandlePackageFormattingProperly() throws MessageHandlerException, IOException, NoSuchFieldException, IllegalAccessException
+	{
+		SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestPackageWithFormatting.sql"));
+		sqlParser.parse(sqlStatementList);
+
+		// Access private atomic statements strings via reflection
+		List<String> singleSqlStatements = new ArrayList<String>();
+		Field statementListField = SqlStatementList.class.getDeclaredField("statementList");
+		statementListField.setAccessible(true);
+		@SuppressWarnings("unchecked")
+		List<AtomicSqlStatement> atomicStatementList = (List<AtomicSqlStatement>) statementListField.get(sqlStatementList);
+		for (AtomicSqlStatement atomicSqlStatement: atomicStatementList)
+		{
+			Field singleSqlStatementField = AtomicSqlStatement.class.getDeclaredField("singleSqlStatement");
+			singleSqlStatementField.setAccessible(true);
+			singleSqlStatements.add((String) singleSqlStatementField.get(atomicSqlStatement));
+		}
+
+		String expectedStatement1 = "CREATE OR REPLACE\n" + "PACKAGE modifying_date\n" + "AS\n" + "  /* Reformats date */\n"
+				+ "  FUNCTION reformat_date(pi_date VARCHAR2)\n" + "    RETURN VARCHAR2;\n" + "  END;\n" + "END modifying_date; ";
+		String expectedStatement2 = "CREATE OR REPLACE\n" + "PACKAGE body modifying_date\n" + "AS\n" + "FUNCTION reformat_date (pi_date VARCHAR2 )\n"
+				+ "  RETURN VARCHAR2\n" + "IS\n" + "  BEGIN\n" + "    -- For Testing Purpose only\n" + "    RETURN(REPLACE (pi_date,'.','/')); \n" + "    \n"
+				+ "  END reformat_date;\n" + "END modifying_date;";
+
+		assertSame("Expected statement count of SQLParserTestPackageWithFormatting.sql is 5", 5, atomicStatementList.size());
+		assertTrue("Statements should be equal", areStatementsEqual(expectedStatement1, singleSqlStatements.get(0)));
+		assertTrue("Statements should be equal", areStatementsEqual(expectedStatement2, singleSqlStatements.get(3)));
+	}
+
+	// Checks whether all lines of two statements are equal (ignoring trailing white spaces)
+	private boolean areStatementsEqual(String statement1, String statement2)
+	{
+		String[] lines1 = statement1.split("\\n");
+		String[] lines2 = statement2.split("\\n");
+		if (lines1.length != lines2.length)
+		{
+			return false;
+		}
+		for (int i = 0; i < lines1.length; i++)
+		{
+			String strippedLine1 = StringUtils.stripEnd(lines1[i], " ");
+			String strippedLine2 = StringUtils.stripEnd(lines2[i], " ");
+
+			if (!strippedLine1.equals(strippedLine2))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
     private File setUpSqlFile(String fileName) throws IOException
     {

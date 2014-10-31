@@ -160,7 +160,7 @@ public class SqlParser
 
 								if (lineBuffer != null)
 								{
-									originalLine = lineBuffer.trim();
+									originalLine = lineBuffer;
 									matchingLine = lineBuffer.toLowerCase(Locale.ENGLISH).trim();
 								}
 								else
@@ -186,7 +186,7 @@ public class SqlParser
                 //That's why a statement which consist of one semicolon must not be added to the statementList.
                 //The previous statement which is terminated by this semicolon is already an atomic statement, so
                 //we don't lose any sql code.
-				if (!statementFinished && !";".equals(originalLine))
+				if (!statementFinished && !";".equals(originalLine.trim()))
 				{
                     AtomicSqlStatement atomicSqlStatement = new AtomicSqlStatement(statementList, originalLine);
                     atomicSqlStatement.setStatementIndexFrom(index + 1);
