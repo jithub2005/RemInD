@@ -17,7 +17,7 @@ public class MessageSplitter
 
 		while (firstIndex <= limit)
 		{
-			if (defaultLastIndex >= limit)
+			if (defaultLastIndex > limit)
 			{
 				listOfSplitedMessages.add(message.substring(firstIndex, message.length()));
 				break;

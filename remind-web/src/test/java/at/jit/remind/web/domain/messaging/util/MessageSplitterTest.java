@@ -58,4 +58,13 @@ public class MessageSplitterTest
 		assertEquals("Expecteding fifth substring from list of message substrings.", "-test.sql, revision=28, repositoryRevision=28", listOfSubstrings.get(4));
 	}
 
+	@Test
+	public void testMessageSpliterWithMinimumMessageLength()
+	{
+		List<String> substrings = MessageSplitter.splitMessageByLengthAndSpace("ab", 1);
+
+		assertSame("Expecting number of new message substrings is 2", 2, substrings.size());
+		assertEquals("Expecting first substring from list of message substrings.", "a", substrings.get(0));
+		assertEquals("Expecting first substring from list of message substrings.", "b", substrings.get(1));
+	}
 }
