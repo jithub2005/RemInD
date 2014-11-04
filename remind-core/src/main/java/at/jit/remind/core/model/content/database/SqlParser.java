@@ -134,7 +134,7 @@ public class SqlParser
 									else if (isCommentLineEnd(matchingLine, endTag))
 									{
 										run = false;
-										source.append(StringUtils.removeEnd(originalLine, endTag));
+										source.append(StringUtils.removeEnd(StringUtils.stripEnd(originalLine, " \t"), endTag));
 										statementFinished = true;
 										break;
 									}

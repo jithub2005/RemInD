@@ -1,5 +1,6 @@
 package at.jit.remind.core.model.content.database;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -374,6 +375,34 @@ public class SQLParserTest
         assertSame("Expected statement count of SQLParserTestNestedBlocksSemicolonsComments.sql is 2", 2, sqlStatementList.size());
         assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
     }
+
+	@Test
+	public void canHandleStatementsWithTrailingWhitespace() throws MessageHandlerException, IOException, NoSuchFieldException, IllegalAccessException
+	{
+		SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestTrailingWhitespace.sql"));
+		sqlParser.parse(sqlStatementList);
+
+		List<String> singleSqlStatements = new ArrayList<String>();
+		Field statementListField = SqlStatementList.class.getDeclaredField("statementList");
+		statementListField.setAccessible(true);
+		@SuppressWarnings("unchecked")
+		List<AtomicSqlStatement> atomicStatementList = (List<AtomicSqlStatement>) statementListField.get(sqlStatementList);
+		for (AtomicSqlStatement atomicSqlStatement: atomicStatementList)
+		{
+			Field singleSqlStatementField = AtomicSqlStatement.class.getDeclaredField("singleSqlStatement");
+			singleSqlStatementField.setAccessible(true);
+			singleSqlStatements.add((String) singleSqlStatementField.get(atomicSqlStatement));
+		}
+
+		String expectedStatement1 = "insert into remind_tmp_table_1 (id, name) values (1, 'This is a test')";
+		String expectedStatement2 = "insert into remind_tmp_table_1 (id, name) values (2, 'This is a test')";
+		String expectedStatement3 = "insert into remind_tmp_table_1 (id, name) values (3, 'This is a test')";
+
+		assertSame("Expected statement count of SQLParserTestPackageWithFormatting.sql is 8", 8, atomicStatementList.size());
+		assertEquals("Statements should be equal", expectedStatement1, singleSqlStatements.get(1));
+		assertEquals("Statements should be equal", expectedStatement2, singleSqlStatements.get(3));
+		assertEquals("Statements should be equal", expectedStatement3, singleSqlStatements.get(5));
+	}
 
 	@Test
 	public void canHandlePackageFormattingProperly() throws MessageHandlerException, IOException, NoSuchFieldException, IllegalAccessException
