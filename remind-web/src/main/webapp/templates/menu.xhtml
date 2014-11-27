@@ -7,14 +7,14 @@
       xmlns:rich="http://richfaces.org/rich">
 
 	<ui:composition>
-		<rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn}">
+		<rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn or loginController.readOnly}">
             <f:facet name="label">
                 <h:panelGrid cellpadding="0" cellspacing="0" columns="2" style="vertical-align:middle">
                     <h:outputText value="Deployment" styleClass="mainMenuHeader"/>
                 </h:panelGrid>
             </f:facet>
             <rich:menuItem>
-                <h:commandLink id="deploymentLink" action="#{navigator.navigateTo('/deployment')}" value="Deploy" disabled="#{!loginController.loggedIn}" />
+                <h:commandLink id="deploymentLink" action="#{navigator.navigateTo('/deployment')}" value="Deploy" disabled="#{!loginController.loggedIn or loginController.readOnly}" />
             </rich:menuItem>
         </rich:dropDownMenu>
         
@@ -38,14 +38,14 @@
             </rich:menuItem>
         </rich:dropDownMenu>
         
-        <rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn}">
+        <rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn or loginController.readOnly}">
             <f:facet name="label">
                 <h:panelGrid cellpadding="0" cellspacing="0" columns="2" style="vertical-align:middle">
                     <h:outputText value="Configuration" styleClass="mainMenuHeader"/>
                 </h:panelGrid>
             </f:facet>
             <rich:menuItem>
-                <h:commandLink id="userSettingsLink" action="#{navigator.navigateTo('/userSettings')}" value="User Settings" disabled="#{!loginController.loggedIn}" />
+                <h:commandLink id="userSettingsLink" action="#{navigator.navigateTo('/userSettings')}" value="User Settings" disabled="#{!loginController.loggedIn or loginController.readOnly}" />
             </rich:menuItem>
             <rich:menuItem disabled="true">
                 <h:commandLink id="systemSettingsLink" action="#{navigator.navigateTo('/systemSettings')}" value="System Settings" disabled="true" />

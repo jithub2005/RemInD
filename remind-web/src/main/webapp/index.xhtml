@@ -17,7 +17,7 @@
 							<h:panelGrid columns="1">
 								<a4j:outputPanel>
 									<h:commandLink id="deploymentLink" action="#{navigator.navigateTo('/deployment')}" value="Deploy"
-										disabled="#{!loginController.loggedIn}" />
+										disabled="#{!loginController.loggedIn or loginController.readOnly}" />
 								</a4j:outputPanel>
 							</h:panelGrid>
 						</ul>
@@ -51,7 +51,7 @@
 							<h:panelGrid columns="1">
 								<a4j:outputPanel>
 									<h:commandLink id="userSettingsLink" action="#{navigator.navigateTo('/userSettings')}" value="User Settings"
-										disabled="#{!loginController.loggedIn}" />
+										disabled="#{!loginController.loggedIn or loginController.readOnly}" />
 								</a4j:outputPanel>
 								<a4j:outputPanel>
 									<h:commandLink id="systemSettingsLink" action="#{navigator.navigateTo('/systemSettings')}"
@@ -66,7 +66,7 @@
 							<h:panelGrid columns="1">
 								<a4j:outputPanel>
 									<h:commandLink id="userAdministrationLink" action="#{navigator.navigateTo('/userAdministration')}"
-										value="User Administration" disabled="#{!loginController.loggedIn}" />
+										value="User Administration" disabled="#{!loginController.admin}" />
 								</a4j:outputPanel>
 							</h:panelGrid>
 						</ul>
