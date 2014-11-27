@@ -8,6 +8,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.jboss.solder.logging.Logger;
@@ -54,6 +55,14 @@ public class UserGateway extends EntityGatewayBase<User>
 		query.setParameter(User.usernameParameter, username);
 
 		return query.getSingleResult() == 1;
+	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public int setReadOnlyToFalseWhereNull()
+	{
+		Query query = getEntityManager().createNamedQuery(User.setReadOnlyToFalseIfNull);
+		
+		return query.executeUpdate();
 	}
 
 	public static final class InvalidUsernameOrPasswordException extends Exception

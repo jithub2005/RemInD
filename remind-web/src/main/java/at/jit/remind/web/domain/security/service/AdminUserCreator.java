@@ -31,6 +31,10 @@ public class AdminUserCreator
 		{
 			logger.info("adminService.initialize(): admin user found");
 
+			logger.info("adminService.initialize(): updating readOnly flag for users where it is null");
+			int cnt = userGateway.setReadOnlyToFalseWhereNull();
+			logger.info("adminService.initialize(): readOnly flag set to false for " + cnt + " users");			
+			
 			return;
 		}
 

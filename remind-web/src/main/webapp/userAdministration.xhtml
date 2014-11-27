@@ -56,6 +56,9 @@
 							</rich:validator>
 						</h:inputText>
 						<rich:message for="mailAddress" />
+						<h:outputLabel value="Read only:" />
+						<h:selectBooleanCheckbox value="#{userController.entity.readOnly}" />
+						
 					</h:panelGrid>
 
 					<rich:graphValidator id="confirmer" value="#{userController.passwordValidator}">
@@ -101,6 +104,10 @@
 					<rich:column>
 						<f:facet name="header">Last Name</f:facet>
 						<h:outputText value="#{user.lastName}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Read only</f:facet>
+						<h:outputText value="#{user.readOnly}" />
 					</rich:column>
 
 					<rich:column>

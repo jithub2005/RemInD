@@ -30,7 +30,8 @@ import at.jit.remind.web.domain.base.model.EntityBase;
 @NamedQueries({@NamedQuery(name = "User.findAll", query = "select u from User u"),
 		@NamedQuery(name = "User.findByUsername", query = "select u from User u where u.username = :username"),
 		@NamedQuery(name = "User.existsByUsername", query = "select count(u) from User u where u.username = :username"),
-		@NamedQuery(name = "User.searchByUsername", query = "select u from User u where u.username like :username")})
+		@NamedQuery(name = "User.searchByUsername", query = "select u from User u where u.username like :username"),
+		@NamedQuery(name = "User.setReadOnlyToFalseIfNull", query = "update User u set u.readOnly = false where u.readOnly is null")})
 public class User extends EntityBase
 {
 	private static final long serialVersionUID = 2292469324438094157L;
@@ -39,6 +40,7 @@ public class User extends EntityBase
 	public static final String findByUsernameQuery = User.class.getSimpleName() + ".findByUsername";
 	public static final String existsByUsernameQuery = User.class.getSimpleName() + ".existsByUsername";
 	public static final String searchByUsernameQuery = User.class.getSimpleName() + ".searchByUsername";
+	public static final String setReadOnlyToFalseIfNull = User.class.getSimpleName() + ".setReadOnlyToFalseIfNull";
 
 	public static final String usernameParameter = "username";
 
@@ -46,7 +48,6 @@ public class User extends EntityBase
 	@Column(name = "USR_USERNAME")
 	private String username;
 
-	@SuppressWarnings("unused")
 	@Size(min = 5, max = 20)
 	@Transient
 	private String password;
@@ -66,6 +67,9 @@ public class User extends EntityBase
 	@Column(name = "USR_VERIFIED")
 	private boolean verified = false;
 
+	@Column(name = "USR_READ_ONLY")
+	private boolean readOnly = false;
+	
 	@Embedded
 	@AttributeOverrides({@AttributeOverride(name = "digest", column = @Column(name = "USR_DIGEST")),
 			@AttributeOverride(name = "salt", column = @Column(name = "USR_SALT"))})
@@ -148,6 +152,14 @@ public class User extends EntityBase
 	public void setVerified(boolean verified)
 	{
 		this.verified = verified;
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 
 	public static final class PasswordEncryptionFailureException extends RuntimeException
