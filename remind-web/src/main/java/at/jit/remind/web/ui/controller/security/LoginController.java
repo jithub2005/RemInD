@@ -45,9 +45,6 @@ public class LoginController implements Serializable
 	@Inject
 	private UserGateway userGateway;
 
-	@Inject
-	private TreeBean treeBean;
-
 	private User sessionUser;
 	private String sessionId;
 
@@ -173,11 +170,11 @@ public class LoginController implements Serializable
 
 	public boolean isAdmin()
 	{
-		if (!isLoggedIn())
-		{
-			return false;
-		}
-
-		return AdminUserCreator.adminUsername.equals(sessionUser.getUsername());
+		return isLoggedIn() && AdminUserCreator.adminUsername.equals(sessionUser.getUsername());
+	}
+	
+	public boolean isReadOnly()
+	{
+		return isLoggedIn() && sessionUser.isReadOnly();
 	}
 }

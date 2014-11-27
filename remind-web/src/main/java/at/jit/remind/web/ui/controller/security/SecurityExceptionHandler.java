@@ -56,8 +56,7 @@ public class SecurityExceptionHandler extends ExceptionHandlerWrapper
 				// TODO: improve check
 				else if (throwable.getMessage() != null && throwable.getMessage().contains(AuthorizationException.class.getSimpleName()))
 				{
-					// TODO: add page
-					redirectTo(externalContext, "/faces/unauthorized.jsf");
+					redirectTo(externalContext, "/faces/index.xhtml");
 				}
 				else
 				{

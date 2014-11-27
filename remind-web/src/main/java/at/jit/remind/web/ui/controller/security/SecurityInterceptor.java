@@ -11,6 +11,7 @@ import javax.interceptor.InvocationContext;
 import at.jit.remind.web.domain.security.exception.AuthenticationException;
 import at.jit.remind.web.domain.security.exception.AuthorizationException;
 import at.jit.remind.web.domain.security.qualifier.LoggedIn;
+import at.jit.remind.web.domain.security.qualifier.NotReadOnly;
 
 @LoggedIn
 @Interceptor
@@ -35,7 +36,14 @@ public class SecurityInterceptor implements Serializable
 		}
 
 		// TODO: call checkAnnotations
-		boolean authorized = true;
+		boolean authorized = checkAnnotations(context, NotReadOnly.class, new SecurityVerifier()
+		{
+			@Override
+			public boolean verify()
+			{
+				return !loginController.isReadOnly();
+			}
+		});
 
 		if (!authorized)
 		{

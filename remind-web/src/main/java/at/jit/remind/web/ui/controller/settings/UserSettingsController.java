@@ -22,7 +22,9 @@ import at.jit.remind.web.domain.context.model.Configuration;
 import at.jit.remind.web.domain.context.model.Property;
 import at.jit.remind.web.domain.context.service.PropertiesProviderService;
 import at.jit.remind.web.domain.security.qualifier.LoggedIn;
+import at.jit.remind.web.domain.security.qualifier.NotReadOnly;
 
+@NotReadOnly
 @LoggedIn
 @Named
 @SessionScoped

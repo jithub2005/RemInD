@@ -49,9 +49,11 @@ import at.jit.remind.web.domain.context.service.PropertiesProviderService;
 import at.jit.remind.web.domain.messaging.qualifier.FileUploadEnd;
 import at.jit.remind.web.domain.messaging.qualifier.Identifier;
 import at.jit.remind.web.domain.security.qualifier.LoggedIn;
+import at.jit.remind.web.domain.security.qualifier.NotReadOnly;
 
 import com.google.common.collect.Iterators;
 
+@NotReadOnly
 @LoggedIn
 @Named
 @SessionScoped
