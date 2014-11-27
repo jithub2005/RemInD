@@ -52,14 +52,14 @@
             </rich:menuItem>
         </rich:dropDownMenu>
         
-        <rich:dropDownMenu mode="ajax" disabled="#{!loginController.loggedIn}">
+        <rich:dropDownMenu mode="ajax" disabled="#{!loginController.admin}">
             <f:facet name="label">
                 <h:panelGrid cellpadding="0" cellspacing="0" columns="2" style="vertical-align:middle">
                     <h:outputText value="Administration" styleClass="mainMenuHeader"/>
                 </h:panelGrid>
             </f:facet>
             <rich:menuItem>
-                <h:commandLink id="userAdministrationLink" action="#{navigator.navigateTo('/userAdministration')}" value="User Administration" disabled="#{!loginController.loggedIn}" />
+                <h:commandLink id="userAdministrationLink" action="#{navigator.navigateTo('/userAdministration')}" value="User Administration" disabled="#{!loginController.admin}" />
             </rich:menuItem>
         </rich:dropDownMenu>
 	</ui:composition>
