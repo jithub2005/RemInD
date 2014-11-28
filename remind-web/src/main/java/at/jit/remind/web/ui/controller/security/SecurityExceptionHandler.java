@@ -45,16 +45,17 @@ public class SecurityExceptionHandler extends ExceptionHandlerWrapper
 
 			try
 			{
+				String message = throwable.getMessage();
 				if (throwable.getCause() instanceof AlreadyLoggedInException)
 				{
 					redirectTo(externalContext, "/faces/index.xhtml");
 				}
-				else if (throwable.getCause() instanceof AuthenticationException || throwable instanceof ViewExpiredException)
+				else if (throwable.getCause() instanceof AuthenticationException || throwable.getCause() instanceof AuthorizationException || throwable instanceof ViewExpiredException)
 				{
 					redirectTo(externalContext, "/faces/index.xhtml");
 				}
 				// TODO: improve check
-				else if (throwable.getMessage() != null && throwable.getMessage().contains(AuthorizationException.class.getSimpleName()))
+				else if (message != null && (message.contains(AuthenticationException.class.getSimpleName()) || message.contains(AuthorizationException.class.getSimpleName())))
 				{
 					redirectTo(externalContext, "/faces/index.xhtml");
 				}
