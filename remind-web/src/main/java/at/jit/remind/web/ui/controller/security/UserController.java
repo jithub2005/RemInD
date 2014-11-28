@@ -13,13 +13,13 @@ import javax.validation.constraints.AssertTrue;
 import org.jboss.solder.logging.Logger;
 
 import at.jit.remind.web.domain.security.model.User;
+import at.jit.remind.web.domain.security.qualifier.Admin;
 import at.jit.remind.web.domain.security.qualifier.LoggedIn;
-import at.jit.remind.web.domain.security.qualifier.NotReadOnly;
 import at.jit.remind.web.domain.security.service.AdminUserCreator;
 import at.jit.remind.web.domain.security.service.UserGateway;
 import at.jit.remind.web.ui.controller.base.EntityControllerBase;
 
-@NotReadOnly
+@Admin
 @LoggedIn
 @Named
 @SessionScoped
