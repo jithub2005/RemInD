@@ -14,10 +14,12 @@ import org.jboss.solder.logging.Logger;
 
 import at.jit.remind.web.domain.security.model.User;
 import at.jit.remind.web.domain.security.qualifier.LoggedIn;
+import at.jit.remind.web.domain.security.qualifier.NotReadOnly;
 import at.jit.remind.web.domain.security.service.AdminUserCreator;
 import at.jit.remind.web.domain.security.service.UserGateway;
 import at.jit.remind.web.ui.controller.base.EntityControllerBase;
 
+@NotReadOnly
 @LoggedIn
 @Named
 @SessionScoped
