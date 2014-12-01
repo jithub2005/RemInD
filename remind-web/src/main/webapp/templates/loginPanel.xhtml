@@ -16,7 +16,7 @@
 					<h:outputText value="Password" />
 					<h:inputSecret id="loginPassword" value="#{loginController.password}" />
 				</h:panelGrid>
-				<rich:messages id="login" ajaxRendered="true" />
+				<rich:messages id="login" ajaxRendered="true" for="loginPanel" />
 							&nbsp;
 							<div align="right" style="width: 100%;">
 					<a4j:commandLink value="Cancel" action="#{loginController.reset()}"

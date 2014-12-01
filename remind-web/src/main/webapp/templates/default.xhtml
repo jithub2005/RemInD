@@ -30,6 +30,9 @@
 							<h:outputText value="Current user: #{loginController.sessionUser.username}" rendered="#{loginController.loggedIn}" />
 						</rich:toolbarGroup>
 						<rich:toolbarGroup location="right">
+							<a4j:commandLink value="Change password" action="#{navigator.navigateTo('/changePassword')}" rendered="#{loginController.loggedIn and !loginController.admin}" />
+						</rich:toolbarGroup>
+						<rich:toolbarGroup location="right">
 							<a4j:commandLink id="loginLink" value="Login" disabled="#{loginController.loggedIn}">
 								<rich:componentControl event="click" operation="show" target="loginPanel">
 									<a4j:param name="event" value="event" noEscape="true" />

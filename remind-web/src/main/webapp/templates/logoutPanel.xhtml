@@ -13,7 +13,7 @@
 				<h:panelGrid columns="1">
 					<h:outputText value="Do you really want to logout?" />
 				</h:panelGrid>
-				<rich:messages id="logout" ajaxRendered="true" />						
+				<rich:messages id="logout" ajaxRendered="true" for="logoutPanel" />						
 							&nbsp;
 							<div align="right" style="width: 100%;">
 					<h:commandLink value="Cancel" onclick="#{rich:component('logoutPanel')}.hide(event); return false;" />

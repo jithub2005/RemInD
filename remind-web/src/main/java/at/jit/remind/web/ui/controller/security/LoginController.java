@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.AssertTrue;
 
 import org.jboss.solder.logging.Logger;
 
@@ -24,7 +25,7 @@ import at.jit.remind.web.domain.security.qualifier.SessionUser;
 import at.jit.remind.web.domain.security.service.AdminUserCreator;
 import at.jit.remind.web.domain.security.service.UserGateway;
 import at.jit.remind.web.domain.security.service.UserGateway.InvalidUsernameOrPasswordException;
-import at.jit.remind.web.ui.controller.deployment.TreeBean;
+import at.jit.remind.web.ui.util.Navigator;
 
 @Named
 @SessionScoped
@@ -34,6 +35,9 @@ public class LoginController implements Serializable
 
 	@Inject
 	private Logger logger;
+	
+	@Inject
+	private Navigator navigator;
 
 	@Inject
 	@Logout
@@ -50,6 +54,8 @@ public class LoginController implements Serializable
 
 	private String username;
 	private String password;
+	
+	private PasswordValidator passwordValidator = new PasswordValidator();
 
 	public String getUserName()
 	{
@@ -71,6 +77,11 @@ public class LoginController implements Serializable
 		this.password = password;
 	}
 
+	public PasswordValidator getPasswordValidator()
+	{
+		return passwordValidator;
+	}
+	
 	public boolean isLoggedIn()
 	{
 		return sessionUser != null;
@@ -101,7 +112,7 @@ public class LoginController implements Serializable
 
 			if (!user.validatePassword(password))
 			{
-				FacesContext.getCurrentInstance().addMessage("login", new FacesMessage("Wrong username or password"));
+				FacesContext.getCurrentInstance().addMessage("loginPanel", new FacesMessage("Wrong username or password"));
 
 				return;
 			}
@@ -118,7 +129,7 @@ public class LoginController implements Serializable
 		{
 			logger.info("loginController.login(): failed to login user " + username);
 
-			FacesContext.getCurrentInstance().addMessage("login", new FacesMessage("Wrong username or password"));
+			FacesContext.getCurrentInstance().addMessage("loginPanel", new FacesMessage("Wrong username or password"));
 		}
 	}
 
@@ -137,7 +148,7 @@ public class LoginController implements Serializable
 		{
 			logger.info("loginController.logout(): actions pending");
 
-			FacesContext.getCurrentInstance().addMessage("logout", new FacesMessage("You cannot logout while actions are still pending"));
+			FacesContext.getCurrentInstance().addMessage("logoutPanel", new FacesMessage("You cannot logout while actions are still pending"));
 
 			return;
 		}
@@ -176,5 +187,44 @@ public class LoginController implements Serializable
 	public boolean isReadOnly()
 	{
 		return isLoggedIn() && sessionUser.isReadOnly();
+	}
+	
+	public void saveChangedPassword()
+	{
+		userGateway.save();
+	}
+	
+	public String cancelChangePassword()
+	{
+		sessionUser = userGateway.refresh(sessionUser);
+		
+		return navigator.navigateTo("index");
+	}
+	
+	public class PasswordValidator implements Cloneable
+	{
+		private String confirmation;
+
+		@Override
+		public Object clone() throws CloneNotSupportedException
+		{
+			return super.clone();
+		}
+
+		public String getConfirmation()
+		{
+			return confirmation;
+		}
+
+		public void setConfirmation(String confirmation)
+		{
+			this.confirmation = confirmation;
+		}
+
+		@AssertTrue(message = "Passwords do not match")
+		boolean isConfirmed()
+		{
+			return sessionUser.validatePassword(confirmation);
+		}
 	}
 }
