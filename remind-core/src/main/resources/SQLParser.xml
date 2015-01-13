@@ -91,6 +91,15 @@
 			</endTag>
 		</startTag>
 		<startTag>
+			<tag>CREATE OR REPLACE FORCE VIEW</tag>
+			<endTag>
+				<tag>/</tag>
+			</endTag>
+			<endTag>
+				<tag>;</tag>
+			</endTag>
+		</startTag>
+		<startTag>
 			<tag>CREATE VIEW</tag>
 			<endTag>
 				<tag>/</tag>
@@ -206,6 +215,15 @@
 		</startTag>
 		<startTag>
 			<tag>KILL </tag>
+			<endTag>
+				<tag>;</tag>
+			</endTag>
+			<endTag>
+				<tag>/</tag>
+			</endTag>
+		</startTag>
+		<startTag>
+			<tag>MERGE </tag>
 			<endTag>
 				<tag>;</tag>
 			</endTag>

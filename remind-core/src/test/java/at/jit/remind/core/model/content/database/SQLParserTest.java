@@ -433,7 +433,39 @@ public class SQLParserTest
 		assertTrue("Statements should be equal", areStatementsEqual(expectedStatement1, singleSqlStatements.get(0)));
 		assertTrue("Statements should be equal", areStatementsEqual(expectedStatement2, singleSqlStatements.get(3)));
 	}
+	
+	@Test
+    public void canHandleCreateOrReplaceForceView() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestCreateOrReplaceForceView.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+        
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
 
+        assertSame("Expected statement count of SQLParserTestCreateOrReplaceForceView.sql is 5", 5, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
+    }
+
+	@Test
+    public void canHandleMergeCommand() throws MessageHandlerException, IOException
+    {
+        SqlStatementList sqlStatementList = new SqlStatementList(setUpSqlFile("SQLParserTestMerge.sql"));
+        sqlParser.parse(sqlStatementList);
+        
+        @SuppressWarnings("unchecked")
+        List<AtomicSqlStatement> atomicSqlStatements = (List<AtomicSqlStatement>) Whitebox.getInternalState(sqlStatementList, "statementList");
+        AtomicSqlStatement atomicSqlStatement = atomicSqlStatements.get(0);
+        
+        boolean onlyComment = Whitebox.getInternalState(atomicSqlStatement, "onlyComment");
+
+        assertSame("Expected statement count of SQLParserTestMerge.sql is 10", 10, sqlStatementList.size());
+        assertSame("onlyComment must not be true, because it's a common sql statement.", false, onlyComment);
+    }
+	
 	// Checks whether all lines of two statements are equal (ignoring trailing white spaces)
 	private boolean areStatementsEqual(String statement1, String statement2)
 	{
